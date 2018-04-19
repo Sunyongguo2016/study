@@ -12,6 +12,8 @@
 > linux-basis.md
 > #### 2. 马哥linux高深运维学习
 > linux-senior.md
+> #### 3.慕课快速上手linux玩转典型应用
+> linux-muke.md
 
 ## 3.java 架构师
 > #### 1.待完善
