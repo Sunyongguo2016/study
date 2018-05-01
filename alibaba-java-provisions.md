@@ -2,6 +2,10 @@
 
 > 序： 阿里巴巴根据开发手册的约定，开发了一套ide的插件，用来提示java开发中不规范的内容.
 >> 地址：https://github.com/alibaba/p3c
+>>参考笔记：
+> * 掘金：（10-21赞）https://juejin.im/entry/58dcb6e3da2f60005fb756f9
+> * 赵小忠：（前文图片赞，mysql数据库部分赞）http://www.cnblogs.com/1315925303zxz/p/6934575.html
+
 
 ## 1.编程规约
 ##### 1.1 命名风格
