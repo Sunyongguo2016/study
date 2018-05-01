@@ -25,7 +25,7 @@
 
 ## 2.异常日志
 > _p44_ catch异常需要自己处理，或者返回调用者，必须有作为。
-> 异常 catch 不可以做流程控制，条件控制
+> 异常 catch 不可以做流程控制，条件控制.
 > _p50_ 日志打印输出，使用占位符描述关键内容，如: logger.debug("Processing trade with id: {} and symbol : {}",id,symbol);
 
 ## 3.单元测试
