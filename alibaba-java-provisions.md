@@ -29,6 +29,8 @@
 > _p50_ 日志打印输出，使用占位符描述关键内容，如: logger.debug("Processing trade with id: {} and symbol : {}",id,symbol);
 
 ## 3.单元测试
+> _p54_ 单元测试过程必须是全自动才有意义，必须(可重复),不允许使用system.out人肉眼测试，必须用assert验证。
+单元测试应保持独立性，不可互相调用，不可前后依赖。
 
 ## 4.安全规约
 
