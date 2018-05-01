@@ -14,6 +14,10 @@
 * 修改的方法用update作为前缀
 ##### 1.3 代码格式
 > _p10_ 正例代码
+##### 1.4 oop规约
+> _p18_ 类内定义方法的顺序是：公有>保护>私有>getting/setting 依照关心程度排名，在getter/setter方法中不增加业务逻辑，否则会增加排查问题的难度。
+  _p19_ 在循环体内，字符串的拼接方式是stringbuilder.append()拼接，不允许str += str+"aaa";因为后者的反编译字节码显示循环体内每次拼接都是new stringbuilder再append拼接的。
+  
 
 
 
