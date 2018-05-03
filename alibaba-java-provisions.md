@@ -41,6 +41,8 @@
 >> 个人敏感信息脱敏，如手机号，身份证 152****0796
 > 用户传入任何参数必须做有效性验证， 表单，ajax提交执行csrf安全过滤； 用户输入的sql参数严格使用参数绑定或metadata字段值限定，防止sql注入；
 用户使用平台资源，要做数量限制，或疲劳限制，防止烂刷，资损；
+> https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project#tab=Main
+> 根据OWASP前十项目执行安全代码训练。(owasp) 互联网：OWASP Top 10是一款强大的Web应用程序安全性意识文档
 
 ## 5. **mysql数据库** 
 > _本章是很重要实用的内容，完美，这部分while(1){读原文}！_
