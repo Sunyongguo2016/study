@@ -5,7 +5,7 @@
 >>参考笔记：
 > * 掘金：（10-21赞）https://juejin.im/entry/58dcb6e3da2f60005fb756f9
 > * 赵小忠：（前文图片赞，mysql数据库部分赞）http://www.cnblogs.com/1315925303zxz/p/6934575.html
-
+> * IBM解释: https://www.ibm.com/developerworks/cn/java/deconding-code-specification-part-2/index.html?ca=drs-
 
 ## 1.编程规约
 ##### 1.1 命名风格
