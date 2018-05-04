@@ -4,21 +4,22 @@
 _2018-04-01_
 
 > ## 1.项目开发的一般流程：
-1.根据背景提出项目的功能需求；划分项目的几个业务模块，再设计表；
-2.根据库表，完成实体类映射。
-3.构建项目；依据maven的方式，构建maven经典目录结构，配置maven需要引进的spring，日志，测试等等依赖（这一步导入jar包）
-4.整合ssm框架、整合jdbc.properties,mybatis-config.xml,spring--dao.xml,spring--service.xml，Spring--web.xml;层层依赖，配置好经典的ssm框架整合；（_2.5,2.6 video_）
-5.配置好ssm框架，依次验证dao,service,controller层是否成功使用，编写代码完成一次初级的controller到dao的操作；（_ssm重点_）
-6.配置logback;logback可以在第三方查看log;支持扩展log4j,(_logback是log4j团队开发的_),logback支持一些日志常用操作，包括格式化，文件大小，保存时间，保存位置这些信息；
-7.代码开发主要功能，crud;前端后端代码配合使用数据；接受渲染数据。
-8.主从同步与读写分离技术。理论到服务器配置到代码实现；
+1. 根据背景提出项目的功能需求；划分项目的几个业务模块，再设计表；
+2. 根据库表，完成实体类映射。
+3. 构建项目；依据maven的方式，构建maven经典目录结构，配置maven需要引进的spring，日志，测试等等依赖（这一步导入jar包）
+4. 整合ssm框架、整合jdbc.properties,mybatis-config.xml,spring--dao.xml,spring--service.xml，Spring--web.xml;层层依赖，配置好经典的ssm框架整合；（_2.5,2.6 video_）
+5. 配置好ssm框架，依次验证dao,service,controller层是否成功使用，编写代码完成一次初级的controller到dao的操作；（_ssm重点_）
+6. 配置logback;logback可以在第三方查看log;支持扩展log4j,(_logback是log4j团队开发的_),logback支持一些日志常用操作，包括格式化，文件大小，保存时间，保存位置这些信息；
+7. 代码开发主要功能，crud;前端后端代码配合使用数据；接受渲染数据。
+8. 主从同步与读写分离技术。理论到服务器配置到代码实现；
 
 > ## 2.项目彩蛋
-_1_. 2.5--2.6 ssm配置，ssm面试常考重点。
-_2_. 3_* logback介绍， log4j升级版，可第三方查看log..等强大功能
-_3_. 4.3 thumbnailator 图片处理与封装类。 4.9 4.12kaptcha 实现验证码 
-_4_. 5.* 主从同步技术.
-_5_. 10.* 阿里云部署，远程微信开发调试技巧
+_1_.  2.5--2.6 ssm配置，ssm面试常考重点。
+_2_.  3_* logback介绍， log4j升级版，可第三方查看log..等强大功能
+_3_.  4.3 thumbnailator 图片处理与封装类。 4.9 4.12kaptcha 实现验证码 
+_4_.  5.* 主从同步技术.
+_5_.  10.* 阿里云部署，远程微信开发调试技巧
+_6_.  4.9 alibaba sui mobile 用作跨平台的页面开发. 有一套较完整的模板，基于ios风格的前端框架；方便后台人员使用。
 
 > ## 3.第一章 项目准备
 环境： jdk1.8 maven 3.3.9 mysql 5.5 chrome tomcat8 eclipse
