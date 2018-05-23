@@ -12,6 +12,8 @@
 
 >  maven 项目结构 
 
+> maven :http://mvnrepository.com/
+
 ## 2.maven资料
 ---
   * 两个项目使用maven,在空闲时间认真再读一下maven知识,补充细节;
@@ -20,3 +22,6 @@
   * 2. maven构建过程的几个环节  https://mp.weixin.qq.com/s/TQ-YVuy4vhvnogrOwCsqlw
   * 3. maven核心概念1     https://mp.weixin.qq.com/s/imPMmRNwUy0lhfHzRDfe7Q
   * 4. maven核心概念2    https://mp.weixin.qq.com/s/lRifQPv6o8c7MXTpVYI5gg
+---
+1. 极客学院  http://wiki.jikexueyuan.com/project/maven/build-automation.html
+2. w3cschool https://www.w3cschool.cn/maven/n4bd1hu1.html
