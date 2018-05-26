@@ -30,3 +30,6 @@
 
 ## 6.maven 学习
 > maven-study.md
+
+## 7.消息队列
+> message-queue.md
