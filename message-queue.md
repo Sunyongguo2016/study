@@ -14,13 +14,13 @@ alibaba开源RecketMq成为Apache软件基金会顶级开源项目.
 
 from: 微信公众号 java架构沉思录 https://mp.weixin.qq.com/s/AQDmjICPmwbR_t9ayOsdkw
 ## 2. 消息中间件 3种传输模式
-* 点对点传输     一对一的方式，消费之后从队列删除
-* 发布订阅模式   一对多的方式，顾名思义，订阅者需要先订阅才可以接受消息
-* 双向应答模式   并不是消息中间件提供的一种通信模式，它是由于实际生成环境的需要，在原有的基础上做了改良
+* 点对点传输            一对一的方式，消费之后从队列删除
+* 发布订阅模式          一对多的方式，顾名思义，订阅者需要先订阅才可以接受消息
+* 双向应答模式          并不是消息中间件提供的一种通信模式，它是由于实际生成环境的需要，在原有的基础上做了改良
 
 ## 3. ActiveMQ快速入门
  源码地址： https://github.com/ITDragonBlog/daydayup/tree/master/MQ
  ActiveMQ是Apache出品，简单好用，能力强大，可以处理大部分的业务的开源消息总线。同时也支持JMS规范。
-  * activeMq 下载安装 在官网下载，bin目录下找到自己操作系统对应的wrapper.exe 安装
+  * activeMq 下载安装       在官网下载，bin目录下找到自己操作系统对应的wrapper.exe 安装
   * activeMq工作流程
-  * springboot整合activeMq 完成2个步骤，1,pom中导入activeMqjar包依赖 2,application.properties文件中配置连接ActiveMQ参数
+  * springboot整合activeMq        完成2个步骤，1,pom中导入activeMqjar包依赖 2,application.properties文件中配置连接ActiveMQ参数
