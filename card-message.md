@@ -9,3 +9,8 @@
 2018-06-05 success
 2018-06-06 success
 2018-06-07 failure
+2018-06-08 success
+2018-06-09 success
+2018-06-10 success
+2018-06-11 success
+2018-06-12 success
