@@ -2,6 +2,8 @@
 > --阿里“教授” 李智慧
 principle of large sites
 
+* [3D Renderer](#### 5.6 高可用网站的质量保证)
+
 
 
 ###  1. 大型网站架构演化
