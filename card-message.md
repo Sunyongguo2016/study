@@ -26,3 +26,5 @@
 2018-06-22 failure
 2018-06-23 success
 2018-06-24 success
+2018-06-25 success
+2018-06-26 success
