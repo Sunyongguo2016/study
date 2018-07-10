@@ -39,3 +39,5 @@
 2018-07-05 success
 2018-07-06 failure
 2018-07-07 failure
+2018-07-08 success
+2018-07-09 success
