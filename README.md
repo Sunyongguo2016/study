@@ -38,3 +38,6 @@
 ## 9.大型网站技术架构核心原理与案例分析  --阿里“教授” 李智慧
 > principle-of-large-sites-study.md
 
+## 10.缓存实践使用
+> cached.md
+
