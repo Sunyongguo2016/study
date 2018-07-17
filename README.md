@@ -43,3 +43,6 @@
 
 ## 11.全端web开发：java与javascript
 > java-javascript.md
+
+## 12.web全栈工程师的自我修养
+> web-full-stack.md
