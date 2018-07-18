@@ -50,3 +50,9 @@
 2018-07-16 success
 2018-07-17 success
 2018-07-18 success
+
+### 日常复习
+1. cache的demo
+2. springboot 做测试
+3. 大型网站架构技术 回顾
+4. 面试题精讲，需要读
