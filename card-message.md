@@ -63,12 +63,12 @@
 5. codota 好工具，利用AI智能提示代码
 
 ### 面试知识汇总
-1.单例模式
+1. 单例模式
     单例模式虽然看起来简单，但是设计的Java基础知识非常多，如static修饰符、synchronized修饰符、volatile修饰符、enum等。这里的每一个知识点都可以变成面试官下手的考点，而单例只是作为一个引子，考到最后看你到底掌握了多少。看你的广度和深度到底是怎么样的
-2.邮件抄送和密送的区别
-3.default，private，public 关键字区别
-4.NIO,AIO,BIO 区别
-5.lock sycnized区别，异同
+2. 邮件抄送和密送的区别
+3. default，private，public 关键字区别
+4. NIO,AIO,BIO 区别
+5. lock sycnized区别，异同
 
 
 
