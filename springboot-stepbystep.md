@@ -51,8 +51,33 @@ thymeleaf 官网： http://www.thymeleaf.org/
       测试能否在页面看到上面写的代码，返回数据；
       使用Rest Client工具，测试RESTful Web Servcie，在idea-> tools-> test restful web service测试请求。
 
+
 ### 第五章 springboot 事务管理
-> 本章是重点，也是自己的弱项。精读
+> 本章是重点，也是自己的弱项
+#### 5.1 spring 事务管理
+      spring 在不同的事务管理API上定义了一层抽象层，开发人员不必要了解底层的事务管理API，就可以使用Spring事务管理机制。spring既支持编程式事务管理，也支持声明式事务管理。
+    spring声明式事务
+      spring配置文件中关于事务配置由3部分组成，分别是DataSource,TransactionManager和代理机制。不论哪种配置方式，一般变化的只有代理机制部分，
+      DataSource和transactionManager这2部分只会根据数据访问方式变化。
+      spring 声明式事务配置提供5中配置方式，而实际使用基于Annotation方式的注解目前比较流行。
+      @Transactional注解在类上或方法上声明一个事务，被调用时spring开启一个事务，当方法正常运行时，spring会提交这个事务。
+      spring提供@EnableTransactionManagement注解在配置类上来开启声明式事务的支持，使用@EnableTransactionManagement后，spring会自动扫描注解@Transactional的类和方法。
+#### 5.2.1 事务的传播行为；  
+    spirng 当事务被另一个事务调用时，必须指明事务如何传播，传播行为可在@Transactional的属性中指定，spirng定义了7种传播行为。具体见官网。 使用@Transactional的propagation属性定义事务传播行为。
+#### 5.2.2 事务的隔离级别：
+    并发事务导致的问题分为3类，脏读，幻读，不可重复读。
+    针对此，spring提供5种事务的隔离级别，spring @Transaction的isolation属性定义隔离级别，对应具体的5中事务隔离级别。
+      @transaction timeout  属性设置事务过期时间。
+      @transaction readOnly  指定当前事务是否是只读事务
+      @transaction rollbackfor(noRollbackFor)  指定哪个或哪些异常可以引起事务回滚。
+    
+#### 5.3 springboot事务使用
+    springboot 默认开启了事务，使用@Transaction即可。springboot默认对jpa，jdbc，mybatis开启了事务。直接使用注解即可，如果使用其他orm框架，要自己配置事务管理器。 springboot 不需要像spring一样无须显式声明@enableTransactionManagement.
+       spirngboot 用于配置事务的类为TransactionAutoConfiguration;依赖于JtaAutoConfiguration和 DataSourceTransactionManagerAutoConfiguration. 
+       由于datasourceTransactionManagerAutoConfuguration有了对事务的支持（@enableTransactionManagement）,所以springboot中直接使用事务即可。
+
+    类级别的事务： @Transactional在类上，以为着此类的所有public方法都是开启事务的。
+    方法级别事务： @tracsactional 方法上加@Transactional； 如果报异常，则回滚。自行测试
 
 
 
