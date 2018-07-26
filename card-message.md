@@ -55,7 +55,9 @@
 2018-07-21 success
 2018-07-22 failure
 2018-07-23 success
-
+2018-07-24 success
+2018-07-25 success
+2018-07-26 success
 ### 日常复习
 1. cache的demo
 2. springboot 做测试
