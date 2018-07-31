@@ -49,3 +49,6 @@
 
 ## 13.一步一步学springboot2 微服务项目实践 0.3
 > springboot-stepbystep.md
+
+## 14.自己随想
+> my-essay.md 自己的一些随想记录
