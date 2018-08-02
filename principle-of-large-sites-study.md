@@ -1,4 +1,6 @@
 # 大型网站技术架构核心原理与案例分析  
+> 思维导图及pdf: [资料](https://pan.baidu.com/s/1d4hsrbpCcpbr_hicRkROXw) 密码：8ns8  资料来自git某大神整理，
+附git:https://github.com/Snailclimb/
 > --阿里“教授” 李智慧
 principle of large sites
 
