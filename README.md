@@ -1,6 +1,6 @@
 # study
 > my study plan to architect
-> 学习方法：以结果为导向，抓重点
+> 现在大四学生的水平： http://snailclimb.top/
 
 
 ## 学习课程
