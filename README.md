@@ -7,6 +7,7 @@
 
 ## 1.mark-down学习 0.9
 > mark-down.md
+https://guides.github.com/features/mastering-markdown/
 
 ## 2.linux学习  0.2
 > #### 1. 马哥linux运维基础班学习
