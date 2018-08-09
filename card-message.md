@@ -51,6 +51,10 @@
 2018-08-03 success
 2018-08-04 failure
 2018-08-05 success
+2018-08-06 success
+2018-08-07 success
+2018-08-08 success
+2018-08-09 success
 
 ### 日常复习
 1. cache的demo
