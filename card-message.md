@@ -2,43 +2,12 @@
 > 日常学习 记录 从03-12开始入职。 时刻记得学习！
 >> 不学习会难受吗 不学习很痛苦。
 
-2018-06-01 failure
-2018-06-02 failure
-2018-06-03 failure
-2018-06-04 success
-2018-06-05 success
-2018-06-06 success
-2018-06-07 failure
-2018-06-08 success
-2018-06-09 success
-2018-06-10 success
-2018-06-11 success
-2018-06-12 success
+
 2018-06-13 success
 2018-06-14 success
 2018-06-15 failure
 2018-06-16 success 党人才回执需要3个月内返回，9月5号前处理好
 
-2018-07-04 success
-2018-07-05 success
-2018-07-06 failure
-2018-07-07 failure
-2018-07-08 success
-2018-07-09 success
-2018-07-10 success
-2018-07-11 success
-2018-07-12 success
-2018-07-13 success
-2018-07-14 success
-2018-07-15 failure
-2018-07-16 success
-2018-07-17 success
-2018-07-18 success
-2018-07-19 success
-2018-07-20 success
-2018-07-21 success
-2018-07-22 failure
-2018-07-23 success
 2018-07-24 success
 2018-07-25 success
 2018-07-26 success
@@ -56,6 +25,13 @@
 2018-08-08 success
 2018-08-09 success
 2018-08-10 success
+2018-08-11 success
+2018-08-12 failure
+2018-08-13 success
+2018-08-14 success
+1. 投资回报率超过10%,而你有不懂行,不了解其中的道理,要准备失去本金的风险
+2. 正因为有zf的背书,人们才会走入陷阱
+
 
 ### 日常复习
 1. cache的demo
