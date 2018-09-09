@@ -16,6 +16,8 @@
 2018-08-30 success
 2018-08-31 failure
 2018-09-05 success
+2018-09-08 success
+2018-09-09 success
 
 
 ### 日常复习
