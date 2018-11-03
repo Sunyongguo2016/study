@@ -38,13 +38,57 @@ synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令�
  * 1.通过构造方法创建
 ### 四 面试中关于 Atomic 原子类的 4 连击
 #### 4.1 介绍一下Atomic 原子类
+ 所谓原子类说简单点就是具有原子/原子操作特征的类； 一个操作一旦开始，就不会被其他线程干扰；
+ 并发包 java.util.concurrent 的原子类都存放在java.util.concurrent.atomic下；
 #### 4.2 JUC 包中的原子类是哪4类?
+ * 基本类型  如 AtomicInteger
+ * 数组类型  如 AtomicIntegerArray
+ * 引用类型  如 AtomicReference; 
+ * 对象的属性修改类型 如 AtomicIntegerFieldUpdater;
 #### 4.3 讲讲 AtomicInteger 的使用
+AtomicInteger 类的使用示例
+使用 AtomicInteger 之后，不用对 increment() 方法加锁也可以保证线程安全。
+`class AtomicIntegerTest {
+        private AtomicInteger count = new AtomicInteger();
+      //使用AtomicInteger之后，不需要对该方法加锁，也可以实现线程安全。
+        public void increment() {
+                  count.incrementAndGet();
+        }
+
+       public int getCount() {
+                return count.get();
+        }
+}`
+
 #### 4.4 能不能给我简单介绍一下 AtomicInteger 类的原理
+AtomicInteger 线程安全原理简单分析
+AtomicInteger 类主要利用 CAS (compare and swap) + volatile 和 native 方法来保证原子操作，从而避免 synchronized 的高开销，执行效率大为提升。
+`CAS的原理是拿期望的值和原本的一个值作比较，如果相同则更新成新的值。UnSafe 类的 objectFieldOffset() 方法是一个本地方法，
+这个方法是用来拿到“原来的值”的内存地址，返回值是 valueOffset。另外 value 是一个volatile变量，在内存中可见，因此 JVM 可以保证任何时刻任何线程总能拿到该变量的最新值。`
+
 ### 五 AQS
 #### 5.1 AQS 介绍
+AQS的全称为（AbstractQueuedSynchronizer），这个类在java.util.concurrent.locks包下面
+AQS是一个用来构建锁和同步器的框架，使用AQS能简单且高效地构造出应用广泛的大量的同步器，比如我们提到的ReentrantLock，Semaphore，其他的诸如ReentrantReadWriteLock，SynchronousQueue，
+FutureTask等等皆是基于AQS的。当然，我们自己也能利用AQS非常轻松容易地构造出符合我们自己需求的同步器
 #### 5.2 AQS 原理分析
 ##### 5.2.1 AQS 原理概览
+AQS核心思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，
+那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中;CLH(Craig,Landin,and Hagersten)队列是一个虚拟的双向队列)
+
+AQS使用一个int成员变量来表示同步状态，通过内置的FIFO队列来完成获取资源线程的排队工作。AQS使用CAS对该同步状态进行原子操作实现对其值的修改。
+private volatile int state;//共享变量，使用volatile修饰保证线程可见性
 ##### 5.2.2 AQS 对资源的共享方式
+AQS定义两种资源共享方式:
+* Exclusive独占
+只有一个线程能执行，如ReentrantLock; 又分为公平锁和非公平锁，公平锁按队列顺序获得资源，非公平锁抢资源
+* Share共享
+多个线程可同时执行
 ##### 5.2.3 AQS底层使用了模板方法模式
+同步器的设计是基于模板方法模式的，如果需要自定义同步器一般的方式是这样（模板方法模式很经典的一个应用）：
+
+使用者继承AbstractQueuedSynchronizer并重写指定的方法。（这些重写方法很简单，无非是对于共享资源state的获取和释放）
+
+将AQS组合在自定义同步组件的实现中，并调用其模板方法，而这些模板方法会调用使用者重写的方法
+
 #### 5.3 AQS 组件总结
