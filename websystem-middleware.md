@@ -103,5 +103,99 @@
  ```
  #### 3.2.3.4 volatile
  91/336
+ 之前提到了synchronized关键字，synchronized除了互斥的作用外，还有可见性的作用，可见性是指一个线程修改了变量的值以后，其他线程能够看到这个值；
+ synchronized保证了代码块的变量可见性，而volatile保证了所修饰变量的可见性，而具体使用也很简单，在变量前面增加volatile关键字就行了；volatile
+ 只是保证了同一个变量在多线程中的可见性，所以它是更多用于修饰作为开关状态的变量。
  
+ 可见性与互斥性是2个事情，不要搞混了；
+ >> 与synchronized及ReentrantLock等提供的互斥相比，volatile只提供了变量的可见性支持。同一个变量线程间的可见性与多个线程中操作互斥是两件事情，操作
+ >> 互斥是提供操作整体的原子性，千万不要混淆了；  volatile解决了可见性的问题，但是不能控制并发，所以对于代码块，需要用synchronized控制并发问题；
+ >> synchronized保证了代码块的串行执行；
  
+ #### 3.2.3.5 Atomics
+ jdk5 中增加了java.util.concurrent.atomic包； 包中是以Atomic开头的类，这些类主要提供一些相关的原子操作；
+ 多线程，多内核，每个线程各执行自己的实例，使用自己实例下的变量；
+ 理解代码：
+ 传统count
+ ```
+ public class Counter1{
+	 private int counter =0;
+	 public int increase(){
+		synchronized(this){
+			counter = counter+1;
+			return counter;
+		}
+	 }
+	 public int decrease(){
+		synchronized(this){
+			counter =counter-1;
+			return counter;
+		}
+	 }
+ }
+ ```
+ 使用AtomicInterger后；
+ ```
+ public class Counter2{
+	private AtomicInteger counter = new AtomicInteger();
+	public int increase(){
+		return counter.incrementAndGet();
+	}
+	public int decrease(){
+		return counter.decrementAndGet();
+	}
+ }
+ ```
+ >> 采用AtomicInteger之后，代码变简洁了，而且性能有很大提升，性能提升的主要原因是在于AtomicInteger内部通过JNI的方式使用了硬件支持的CAS指令；
+ java.util.concurrent.atomic包中，有很多实用的类，可以参考相关说明；
+ 
+ #### 3.2.3.6 wait,notify,notifyAll
+ 都是java的Object对象上的三个方法，wait是进行等待，notify,notifyAll是进行通知的，可以把某个对象作为事件对象，通过这个对象的wait,notify,
+ notifyALL完成线程间的状态通知。 notify会唤醒一个等待线程，notifyAll唤醒所有等待线程；
+ 对对象的wait,notify,notifyAll的调用都必须是在对象的synchronized块中。
+ 在实践中，对wait的使用一般是嵌在一个循环中，并且会判断相关的数据状态是否到达预期，如果没有则会继续等待，这么做是为了防止虚假唤醒。
+ 
+ #### 3.2.3.7 CountDownLatch
+ CountDownLatch是java.util.concurrent包中的一个类， 主要机制是当多个线程（都）达到了预期状态或完成工作时触发时间，然后其他线程可以等待
+ 这个事件来触发自己的后续工作。
+ 达到预期状态的线程会调用CountDownLatch的countDown方法，而等待的线程会调用CountDownLatch的await方法，之后执行await之后的代码。
+ 如果CountDownLatch初始化的count值为1，那么就退化为一个单一事件了，即是由一个线程来通知其他线程，效果等同于wait和notifyAll;count值大于1
+ 是常用的方式，目的是让多个线程到达各自的预期状态，变为一个事件进行通知，线程则继续自己的行为；
+ 
+ #### 3.2.3.8 CyclicBarrier
+ CyclicBarrier,字面理解就是指循环屏障。 CyclicBarrier可以协同多个线程，让多个线程在这个屏障前等待，知道所有线程都到达了这个屏障时，再一起
+ 执行后面的动作。
+ 
+ >> CyclicBarrier和CountDownLatch 都是用于多个线程间的协调的，二者的很大一个差别是countDownLatch是在多个线程都进行了lath.countDown后才会触发
+ 事件，唤醒await在latch上的线程(latch的线程可以是多个)，而执行countDown的线程，执行完countDown后会继续自己线程的工作；CyclicBarrier是一个栅栏，
+ 用于同步所有调用await方法的线程，并且等待线程都到了await方法时，这些线程才一起返回继续各自的工作（CyclicBarrier的线程都会阻塞在await方法上，
+ 所以在线程池中使用CyclicBarrier时要小心，如果线程数很少，那么就会发生死锁了）；另外，CyclicBarrier可以循环使用；
+ #### 3.2.3.9 Semaphore
+ semaphore是用于管理信号量的，构造的时候传入可供管理的信号量的数值，信号量对象管理的信号就像令牌，构造时传入个数，总数就是控制并发的数量。
+ 如果总数为1，就退化为互斥锁。主要用于控制并发数；
+ 我们需要控制并发的代码，执行前先获取信号（通过acquire获取信号许可），执行后归还信号（通过release归还信号许可）。
+ 
+ 举例：如果我们要控制远程方法的并发量，超过并发量的方法就等待有其他方法执行返回后再执行，那么代码大概是这样的：
+ ```java
+ semaphore.acquire();
+ try{
+	//调用通信的方法；
+ }
+ finally{
+	semaphore.release();
+ }
+ ```
+ acquire和release是可以有参数的额，参数的含义就是获取/返还的信号量的个数；
+ #### 3.2.3.10 Exchanger
+ Exchanger,从名字上理解就是交换。Exchanger用于在2个线程间进行数据交换。
+ 线程会阻塞在Exchanger的exchange方法上，直到另一个线程也到了同一个Exchanger的exchange方法，然后两者数据交换。。具体使用看资料
+ #### 3.2.3.11 Future和FutureTask
+ Future是一个接口，FutureTask是一个具体的实现类。 
+ 我们在执行代码时，调用某一个函数，然后执行以后的代码，这样的方式有2中，一种方法时回调，另一种是Future； 在需要用的时候再具体执行代码；
+ #### 3.2.3.12 并发容器
+ 在jdk中，有一些线程不安全的容器，也有一些线程安全的容器，并发容器是线程安全容器的一种，但是并发容器强调的是容器的并发性，不仅保证线程安全，
+ 还保证容器的并发性，提升在容器并发环境下的性能。
+ 互斥加锁的方式确实能够方便的完成线程安全，不过代价是降低了并发性，或者说是串行了。 在并发容器中，不仅保证容器安全，还保证并发性；
+ 有代表性的是以CopyOnWrite和Concurrent开头的几个容器。
+ ### 3.2.4 动态代理
+ 103/336
