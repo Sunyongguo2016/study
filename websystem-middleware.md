@@ -92,7 +92,7 @@
  * 提供tryLock 方法 返回true，false；是否被他人持有，如果没有返true并持有锁；
  * 构造ReentrantLock对象的时候，有一个构造函数可以接收一个boolean类型的参数，描述锁的公平与否； 非公平锁更有效率，但是可能有的等待任务等很久或一直拿不到资源；
  ReentrantLock也提供了reentrantReadWriteLock,是读写锁，主要用于读多写少并且读不需要互斥的场景；比直接使用全部互斥锁有很大的性能提升；
- ```javascript
+ ```java
  lock.lock();
  try{
      //do something;
