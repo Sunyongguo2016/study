@@ -60,6 +60,48 @@
  JVM是java Byte codes的一个运行环境， JVM的调优及运行时问题的定位处理也非常重要的内容，本书不对这2部分展开介绍； 提醒一句，没有一个万能的调优和问题定位解决方式。
  我们只能了解一些基本的原理和方式，然后根据每个系统的不同特点来进行不同的处理。
  83/336
-
+#### 3.2.2 垃圾回收与内存堆布局
+ 使用java虚拟机不得不说就是垃圾回收，java虚拟机通过垃圾回收机制内存回收，与c++显式释放不同，因此设置不同的垃圾回收方式及参数都会影响垃圾回收的效果，而这对网站
+ 产生的影响就在于系统的稳定性及单机的支撑能力方面，这也是我们特别关注的部分；
+ 对我们来说使用较多的还是ORacle Hotspot JVM,建议读者多花时间去了解针对hotspot的垃圾回收策略，设置和调优；
+ #### 3.2.3 java并发编程的类，接口和方法；
+ 现在是多核的时代，因此多核编程非常重要，因此基于java的并发核多线程开发非常重要；
+ ##### 3.2.3.1 线程池
+ 线程池可以降低创建线程的开销，也就是线程执行结束后进行的是回收操作，而不是真正的线程销毁工作； 节省了创建线程和销毁线程的开销；
+ 在java中，我们主要使用的线程池就是threadPoolExecutor,此外还有定时的线程池ScheduledThreadPoolExecutor, 需要注意的是Executors.newCachedThreadPool()方法返回的线程池的使用，因为该
+ 方法返回的线程池是没有线程上限的，没法控制线程总数，假设每个线程消耗内存1m,这可能导致很多内存被占用，因此java阿里巴巴开发规约，禁止使用Executors的方法创建线程；
+```java
+ ThreadPoolExecutor tp = new ThreadPoolExecutor(1,1,60,TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>(count));
+ tp.execute(new Runnable(){
+ @Override 
+ public void run(){
+     //do something;
+ }
+ });
+```
+ #### syncronized
+ syncronized 使用方式：
+  * syncronized 修饰类的static 方法，对类加锁，获得类的锁； 互斥class / static  synchronized 方法；   public synchronized static void foo1()();
+  * synchronized 修饰类的成员方法， 对类的实例枷锁， 获得new的实例的锁， 互斥 需要实例锁的 任何方法； public synchronized void fon(){};
+  * synchronized 修饰代码块（这种方式最灵活）， 可以对类枷锁，对实例枷锁， 对任意对象枷锁；  
+  public void foo6(){ synchronized(this`获得当前实例的锁`){//代码块 code 对任意获得当前实例的成员方法都互斥； 锁的是当前实例}}
+  public void foo5(){ synchronized(SynchronizedDemo.class`获得当前类的锁`){//代码块 code 对任意获得当前类的锁都互斥， 锁的是当前类}}
+ #### ReentrantLock jdk5加入的
+ reentrantLock是java.util.concurrent.locks中的一个类，是从jdk5开始加入的，不过需要显式的unlock；因此如果出现异常没有unlock就出问题； 这么比较 synchronized比较安全；
+ 那么ReentrantLock 区别、优势？
+ * 提供tryLock 方法 返回true，false；是否被他人持有，如果没有返true并持有锁；
+ * 构造ReentrantLock对象的时候，有一个构造函数可以接收一个boolean类型的参数，描述锁的公平与否； 非公平锁更有效率，但是可能有的等待任务等很久或一直拿不到资源；
+ ReentrantLock也提供了reentrantReadWriteLock,是读写锁，主要用于读多写少并且读不需要互斥的场景；比直接使用全部互斥锁有很大的性能提升；
+ ```
+ lock.lock();
+ try{
+     //do something;
+ }
+ finally{
+     lock.unlock();
+ }
+ ```
+ #### 3.2.3.4 volatile
+ 91/336
  
  
