@@ -32,11 +32,16 @@
 
 <h4 id='2.2'> 统一的组件模型</h4>
 > ext日常接触使用最多的是其组件与布局，通过布局与组件完成应用
+
  2.2.1 ext所有组件都继承自Ext.Component,所有组件有通用方法和生命周期，最常见的功能initComponent(), render(),show(), hide(); 无论哪种组件都经过初始化，渲染，显示，隐藏实现其整体的生命周期。
+ 
  2.2.2 Ext.Panel; 直接继承自Ext.Container; 用tbar,bbar设置上下位置工具条，用collapseFirst,collapsed,collapsedCls,collapsible设置与面板折叠有关配置。 floating,shadow设置阴影，浮动效果。
+ 
  2.2.3 Ext.Container,继承自Ext.Component. layout参数指定当前组件布局方式，items参数包含所有的子组件。 xtype参数简化配置，延迟布局中组件初始化。Ext.Container是一切可布局组件的超类
+ 
 <h4 id='2.3'> 完善的事件机会</h4>
 > ext事件模型应用广泛，分2中，自定义事件和浏览器事件。
+
  2.3.1 自定义事件： 
 
 
