@@ -25,7 +25,7 @@
 
 <h2 id='2'> ext基础框架 </h2>
 <h4 id='2.1'> 面向对象的基础架构<h4>   
-     ext面向对象架构体现在： 依靠ext对象模型的api, 可以迅速实现对象定义，创建，继承和拓展等 <br/>
+ ext面向对象架构体现在： 依靠ext对象模型的api, 可以迅速实现对象定义，创建，继承和拓展等 <br/>
  * 创建新类 ：  Ext.define('String',Object); par1 表示类名，par2是object对象，存放类的属性和方法； 使用时var c = new demo.Demo();
  * 继承及拓展类：   Ext.define('demo.DemoWindow',{extend:'Ext.Window',title:'header'}); 另外可以用statics定义静态成员，可通过constructor
 自定义构造函数；
