@@ -19,8 +19,8 @@
 
 
 <h2 id='1'> ext概述 </h2>
-    ext支持grid表格，form表单，tree属性，window弹出框和layout页面布局等多种组件，而且可以简便的组装成各种复杂系统；除常用组件外还提供portal,desktop,calendar组件。  <br/> 
-    第一节介绍了ext导入js文件，测试hello world； 以及firefox的firebug调试工具
+     ext支持grid表格，form表单，tree属性，window弹出框和layout页面布局等多种组件，而且可以简便的组装成各种复杂系统；除常用组件外还提供portal,desktop,calendar组件。  <br/> 
+     第一节介绍了ext导入js文件，测试hello world； 以及firefox的firebug调试工具
 
 
 
