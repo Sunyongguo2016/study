@@ -2,7 +2,9 @@
 > my study plan to architect
 > 现在大四学生的水平： http://snailclimb.top/
 # 学习必做笔记
-待完善笔记， 深入理解jvm; springboot;大型网站系统与中间件； 深入理解extjs,activiti;
+待完善笔记， 深入理解jvm; springboot;大型网站系统与中间件； 
+
+待读书：编译原理龙书，汇编语言，java并发编程实战，java并发编程艺术，深入理解extjs,activiti;javascript编程全解
 
 ## 学习课程
 
