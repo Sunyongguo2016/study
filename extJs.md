@@ -24,7 +24,7 @@
      第一节介绍了ext导入js文件，测试hello world； 以及firefox的firebug调试工具
 
 <h2 id='2'> ext基础框架 </h2>
-<h2 id='2.1'> 面向对象的基础架构<h2>
+<h2 id='2.1'> 面向对象的基础架构<h2> <br/>
      
  ext面向对象架构体现在： 依靠ext对象模型的api, 可以迅速实现对象定义，创建，继承和拓展等。<br/>
  * 创建新类 ：  Ext.define('String',Object); par1 表示类名，par2是object对象，存放类的属性和方法； 使用时var c = new demo.Demo();
