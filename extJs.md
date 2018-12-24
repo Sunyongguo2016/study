@@ -24,6 +24,16 @@
 *  [3.16 基于表格的拓展插件](#3.16)
 *  [3.17 小结](#3.17)
 ## [4.表单与输入控件](#4)
+*  [4.1 FormPanel BasicForm详解](#4.1)
+*  [4.2 Ext支持的输入组件](#4.2)
+*  [4.3 ComboBox详解](#4.3)
+*  [4.4 复选框和单选按钮](#4.4)
+*  [4.5 滑动条表单控件](#4.5)
+*  [4.6 表单布局](#4.6)
+*  [4.7 数据校验](#4.7)
+*  [4.8 使用表单提交数据](#4.8)
+*  [4.9 自动数据填充到表单](#4.9)
+*  [4.10 小结](#4.10)
 ## [5.树形结构](#5)
 ## [6.布局](#6)
 ## [7.弹出窗口](#7)
@@ -240,4 +250,113 @@ SimpleStore不但没有设置proxy，而且没有重写load()函数，所以会�
  
  可编辑表格EditorGrid, 介绍如何添加和删除行，将修改的数据提交后台保存，对输入数据校验和类型限制；
  Ext的特殊组件： 如PropertyGrid GroupingGrid, 以及表格的几种拖放形式。
+
+
+ <h2 id='4'> 表单与输入控件 </h2>
+ 
+> 97 page Ext表单提供一层封装，可以默认数据校验，提示，ComBox, 选择控件等
+
+ <h4 id='4.1'> FormPanel BasicForm详解 </h4>
+ 
+ FormPanel是Ext.Panel的一个子类，可对其执行各种Panel操作，实际上，表单的功能是在Ext.form.BasicForm对象。 formPanel对象getForm()可获得BasicForm对象。我们可以BasicForm上执行‘提交表单数据’和‘复位表单初始值’等操作。
+ 引入FormPanel的最大好处在于布局；
+ 
+ <h4 id='4.2'> Ext支持的输入组件 </h4>
+ 
+  * ext支持输入的控件继承关系图 TextField,TextArea,Checkbox, Radio, ComboBox, DateField, HtmlEditor, Hidden ,TimeField; 都继承与Ext.form.Field
+  * 表单控件详解（详细demo）
+  * Ext.form.Field 是所有表单输入控件的基类，其他控件都是基于此拓展来的。其中定义了一些通用的属性和功能函数，大致3类（页面显示样式，控件参数配置和数据有效性校验）
+    - 页面显示样式： clearCls，cls fieldClass focusClass itemCls invalidClass labelStyle等 定义不同状态下输入框的样式
+	- 控件参数配置： autoCreate disabled fieldLabel hideLabel inputType labelSeparator name readOnly tabIndex value等，设置输入控件生成的dom内容和标签内容，以及是否禁用，可读等。
+	- 数据有效性校验： invalidText, msgFx msgTarget validateOnBlur validateDelay validateEvent等， 校验数据方式以及显示错误信息
+  * TextField: 校验非空，最大值 最小值
+  * TextArea: 在TextField基础上，可以多行输入，只需设置对一个长度宽度即可；grow:true, area会自动拓展自身高度，而不是宽度，preventScrollbars参数可防止出现滚动条
+  * DateField：支持所有Field和TextField功能外，弹出日历，disabledDays可禁止用户选择一周内的特定日期
+  * TimeField: 选择时间的输入控件， minValue, maxValue, increment; 设置显示内容
+  * Ext.form.HtmlEditor: 可以带一定格式输入内容
+  * Ext.form.Hidden: 直接继承自Field, 可通过setValue() getValue()函数对它赋值取值；
+  * 如何使用input type="image", 这里讲拓展Field没有的属性，自定义
+ 
+ <h4 id='4.3'> ComboBox详解 p108 </h4>
+ 
+  * comboBox简介
+  * select 转换成ComboBox
+  * ComboBox结构详解
+  * ComboBox读取远程数据
+  * comboBox高级配置：如分页，是否允许用户自己填写内容
+  * 监听用户选择的数据
+  * 使用本地数据实现省，市，县级联
+  * MultiSelect,ItemSelector 扩展及示例
+  
+ <h4 id='4.4'> 复选框和单选按钮 p125 </h4>
+ 
+  * 复选框  
+  * 单选框，继承自复选卡箍
+  * CheckboxGroup, RadioGroup控件 可以设置排列方式，竖向或横向或自定义
+  
+ <h4 id='4.5'> 滑动条表单控件 p131 </h4>  
+ <h4 id='4.6'> 表单布局 p133 </h4>    
+ 
+ 表单布局，在布局中使用fieldset; 在fieldset中使用布局，以及自定义布局
+ 
+ <h4 id='4.7'> 数据校验 p143 </h4>   
+ 
+ 输入不为空， 最大长度最小长度， 借助vtype（如email,url,alpha(英文),alphanum（英文数字））； -- 另外可以自定义校验规则；如通过regex: 设置只输入汉字；
+ NumberField是TextField子类，有一些自己的校验，如只能输入数字；
+ 使用后台返回的校验信息；
+ 
+ <h4 id='4.8'> 使用表单提交数据 p148 </h4>    
+ 
+ ext提供了3种提交表单数据的方式， 如原始HTML表单方式，2中ajax形式的提交；
+ 
+ form.getForm().submit(); -- 因为formPanel是布局容器，没有submit()方法，所以先获得BasicForm；  -- 这里要form设置一个url, 给textField加上name;
+ 
+ form.getForm().submit({
+	 sucess:function(form,action){
+		// 判断方法是返回200
+	 }，
+	 failure:function(){
+		// 判断500 404
+	 }
+ });
+ 
+ 使用HTML原始提交形式：
+  el都是由Dom的，dom模型就是ext控件在页面上真实对应的部分，通过handler:function(){ form.getForm().getEl().dom.action=''; form.getForm().getEl().dom.submit();}提交表单数据’和‘复位表单初始值’等操作。
+  
+ 单纯的ajax;
+ 既然是单纯的ajax,我们要获取数据，这里有几种方式： --form.getValues()函数，有一个参数，true返回json字符串，false返回json对象； --findField()函数，可获取表单里的控件，如有一个名称为text的TextField；
+ var text= form.getForm().findField('text');
+ 
+ 我们通过最简单的getValues(true)函数来配合ajax获取数据， 用ajax数据传给后台，最后回调代码如下
+ 
+ ```
+ handler: function(){
+	var text = form.getForm().findField('text');
+	
+	Ext.Ajax.request({
+		method: 'post',
+		url: '09_01_01.jsp',
+		success:function(response){
+			var result = Ext.decode(reponse.responseText);
+			Ext.Msg.alert("信息", result.mes);
+		},
+		failure:function(){
+		},
+		params: form.getForm().getValues(true);
+		
+	});
+ }
+ ```
+
+ 这里使用form.getValues(true) 需要注意，得到的字符串不是decode()编码后的值，是name=value的形式，无须处理发给后台，这里有个问题，因为包含了=，& 无法使用encodeURIComponent()函数对它进行编码。
+ 这样，如果参数中包含中文，就不能用get发送数据了，否则会出现乱码。 在实际使用需要权衡。
+
+>> 文件上传与文件上传控件  p151
+
+ <h4 id='4.9'> 自动数据填充到表单 p153 </h4>   
+ 
+ <h4 id='4.10'> 小结 </h4>   
+
+ 本章介绍了 Ext中`表单以及表单输入控件`，通过控件继承图我们可清楚知道`控件之间的相互关系` , 介绍了组件功能以及校验方式， 并介绍了Ext.form.ComboBox, Ext.form.Checkbox,Ext.form.Radio; 以及上传控件的使用方法。
+ 此外， 介绍了表单的提交，获取数据，校验和布局。 最后介绍了吧数据填充到表单控件中
 
