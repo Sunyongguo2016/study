@@ -47,6 +47,30 @@
 
 > ext事件模型应用广泛，分2中，自定义事件和浏览器事件。
 
- 2.3.1 自定义事件： 
+ 2.3.1 自定义事件： ext遵循一种树状的事件模型，继承自Ext.util.Observable类的控件都可以支持事件。自定义Person类，加walk,eat,sleep事件；
+ 
+ person.on('walk',function(){}); 这里on是addListener()简写形式；
+ 
+ 2.3.2 浏览器事件：Ext使用Ext.EventManager,Ext.EventObject,Ext.lib.Event对原生浏览器事件封装，展示一套统一的跨浏览器的通用事件接口。
+ 
+ Ext.get('test');获取id='test'的元素；
+ 
+ 2.3.3 Ext.EventObjectImpl: 封装的事件，可减少浏览器之间的差异
+ 
+  * getTarget() 返回事件的目标坐标，用来统一IE和其他浏览器使用的ev.target和ev.srcElement.
+  * getRelatedTarget() 返回事件相关的html元素；
+  * Ext.EventObjectImpl 中还存在按键与ascii的映射关系
+  * Ext.EventObject，提供getWheelDelta()，获得鼠标滚轮的delta值，可利用该方法动态改变div宽度
+  
+ 2.3.4 Ext.util.Observable
+ 
+ 2.3.5 Ext.EventManager 与事件相关的处理函数
+ 
+  * onDocumentReady,  如Ext.onReady(); 即使在head区域，也会等待html元素都加载后才执行，可控制加载顺序。
+  * onWindowResize, 监听浏览器窗口大小变化，以及改变后大小。
+  * onTextResize
+  
+> 本节介绍了ext基本功能框架，包括对象模型，组件模型，事件模型。通过示例解释了模型使用方法，ext所有功能都建立在这些基础架构之上。
+ 
 
 
