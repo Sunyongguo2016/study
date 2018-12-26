@@ -814,7 +814,8 @@ tree.on("itemcontextmenu", function(view,record,item,index,e){
   5. 设置窗口中的按钮；
   
   buttons:[{},{}]  buttonAlign:'center',2个按钮居中；另外可设置left，right;  window下设置defaultButton:0 ,默认选中第一个按钮；
-	```
+
+```
   {
 	text:'确定',
 	handler:function(){
