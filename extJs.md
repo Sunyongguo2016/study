@@ -58,7 +58,13 @@
 *  [6.10 BoxLayout--HBox，VBox 212](#6.10)
 *  [6.11 Ext.TabPanel 215](#6.11)
 *  [6.12 与布局相关的其他知识 220](#6.12)
-## [7.弹出窗口](#7)
+## [7.弹出窗口 226](#7)
+*  [7.1 Ext.MessageBox](#7.1)
+*  [7.2 对话框的更多配置](#7.2)
+*  [7.3 与布局相关的其他知识 220](#7.3)
+*  [7.4 窗口分组 239 ](#7.4)
+*  [7.5 向窗口中放入各种控件 241](#7.5)
+*  [7.6 与布局相关的其他知识 220](#7.6)
 ## [8.工作条与菜单](#8)
 ## [9.数据存储于传输](#9)
 ## [10.用户拓展与插件](#10)
@@ -735,3 +741,97 @@ tree.on("itemcontextmenu", function(view,record,item,index,e){
   
   center部分layout：border; ext的布局提供了很大的方便，在任何一个panel中设置layout:'border'，就可以将它再次分为5个区域； 这5个区域还可以再使用panel,并有region参数指定位置；
   再在panel里面使用layout一直循环嵌套下去；
+  
+  
+    <h2 id='7'> 弹出窗口 226</h2> 
+  
+  <h4 id='7.1'> Ext.MessageBox </h4>   
+   
+   Ext.MessageBox提供了alert,confirm,prompt等对话框完全可以替代浏览器原生对话框，另外还提供了诸如进度条等更多内容；
+   
+   ```
+   Ext.MessageBox.alert('标题','内容',function(btn){
+	// 这里是回调函数，即无论是点击弹出框里的btn 还是点弹出框的关闭按钮都执行这里
+   });
+   
+   Ext.MessageBox.confirm('选择框','你选择yes ,no?', function(btn){
+   // 点击yes， no只有调用，btn 获取'yes','no'，执行逻辑
+   });
+   
+   Ext.MessageBox.prompt('输入框','随便输入点东西',function(btn,text){
+	//  回调函数， 第一个btn表示'ok ','cencal', text 表示弹出确认框输入的文本值
+   });
+   ```
+   
+  <h4 id='7.2'> 对话框的更多配置 </h4>   
+   
+   对话框不仅可以执行简单的alert, confirm, prompt;
+   还可以输入多行的输入框，自定义对话框的按钮，进度条和动画效果；
+   
+  <h4 id='7.3'> Ext.Window常用属性 232 </h4>   
+   
+   Window. MessageBox的功能很相似，Ext.MessageBox内部也是基于Ext.Window来实现的；
+   
+   1. 创建窗口
+   
+   ```
+   var win = new Ext.Window({
+		layout:'fit',
+		width:500,
+		height:300,
+		closeAction:'hide',
+		items:[{}],
+		buttons:[{
+			text:'按钮'
+		}]
+   });
+   win.show();
+   
+   height, width确定窗口大小，fit自适应； closeAction ‘hide’是一个常用参数，用来控制用户单击右上角关闭图标后会执行那些操作，
+   hide隐藏组件，用show() 还可以调用出来，如果使用默认的close，关闭窗口会把窗口对象销毁；
+   closable:fasle ,则不允许右上角关闭按钮关闭窗口； draggable:true,则不允许用户随意拖动窗口位置。
+   
+   因为参数items[{}] 没有，不为子组件制定xtype,默认生成Ext.Panel对象，显示出来一片空白； 因为fit布局，会自动调整大小使用窗口；
+   
+   Ext.Window继承自Ext.Panel， 可以使用Ext.Panel中定义的参数对窗口进行设置，包括标题，上方，下方的工具条，以及内容的折叠展开等；
+   ```
+   
+  2. 窗口最大化和最小化
+  
+  窗口最大化，maximizable:true; 会自动适应浏览器放到最大，最小化功能类似minimizable:true,但是不会触发操作因为没有为窗口预设最小化操作，需自己重写；
+  
+  3. 窗口的隐藏和销毁
+  
+  Ext.Window 窗口包含closeAction参数， closeAction:'close';销毁，dom都会销毁；  closeAction:'hide' 隐藏，可以用show()显示； 一般用'hide'即可；
+对应的函数是 Ext.Window.hide() , .show(), .close(); 
+
+  与窗口相关的配置还有closeable参数， 默认为true， 默认显示右上角的关闭按钮；如果设置为false,就没有关闭窗口按钮，此时用hide(), close()方法就可以关闭窗口；
+   
+  4. 防止窗口超出浏览器边界 
+	
+	constrain constrainHeader,分别限制窗口的整体和窗口的顶部不能超越浏览器边界； 在Ext.Window里面配置；
+  
+  5. 设置窗口中的按钮；
+  
+  buttons:[{},{}]  buttonAlign:'center',2个按钮居中；另外可设置left，right;  window下设置defaultButton:0 ,默认选中第一个按钮；
+	```
+  {
+	text:'确定',
+	handler:function(){
+		win.hide(); //点击确定就关闭了窗口
+	}
+  }
+  ```
+  
+  6. 窗口的其他配置选项
+  
+  resizable控制窗口是否可以通过拖放改变大小， resizable:true, 时，还可设置resizeHandles 设置拖放方式； 设置modal:true; 形成窗口遮罩，整个页面变灰； 还可以设置动画效果 animateTarget;
+  
+  <h4 id='7.4'> 窗口分组 239 </h4>  
+  
+  ext中，窗口是通过分组进行管理的， 我们可以对某一组的特定窗口进行特定操作，默认在分组Ext.WindowMgr组中； 分组有Ext.WindowGroup类定义，
+  该类包括bringToFront(), getActive(), hideAll(), sendToBack()函数；操作分组中的窗口；
+
+  <h4 id='7.5'> 向窗口中放入各种控件 241 </h4>    
+   
+   窗口继承自Ext.Panel， 因此可以支持内部嵌套其他组件，实现各种复杂的布局； 如加入grid, form， border布局的复杂布局等；
