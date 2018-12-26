@@ -35,6 +35,16 @@
 *  [4.9 自动数据填充到表单](#4.9)
 *  [4.10 小结](#4.10)
 ## [5.树形结构](#5)
+*  [5.1 TreePanel基本使用](#5.1)
+*  [5.2 树的事件](#5.2)
+*  [5.3 修改节点图标，提示信息，超链](#5.3)
+*  [5.4 树形拖放 p172](#5.4)
+*  [5.6 对树进行排序](#5.6)
+*  [5.7 带checkbox树形 178](#5.7)
+*  [5.8 树形与表格的结合 179](#5.8)
+*  [5.9 更多树形的高级应用 (选中刷新等事件)182](#5.9)
+*  [5.10 小结183](#5.10)
+
 ## [6.布局](#6)
 ## [7.弹出窗口](#7)
 ## [8.工作条与菜单](#8)
@@ -359,4 +369,124 @@ SimpleStore不但没有设置proxy，而且没有重写load()函数，所以会�
 
  本章介绍了 Ext中`表单以及表单输入控件`，通过控件继承图我们可清楚知道`控件之间的相互关系` , 介绍了组件功能以及校验方式， 并介绍了Ext.form.ComboBox, Ext.form.Checkbox,Ext.form.Radio; 以及上传控件的使用方法。
  此外， 介绍了表单的提交，获取数据，校验和布局。 最后介绍了吧数据填充到表单控件中
+
+
+ <h2 id='5'> 树形结构 </h2> 
+
+> 156 page  树形结构是一个很经典的结构，Ext提供树形控件，方便在B/S中快速开发树信息结构的应用。treepanel继承自 Panel
+
+ <h4 id='5.1'> TreePanel基本使用 </h4>  
+
+ ```
+ var tree = new Ext.tree.TreePanel();
+ tree.render('tree'); 这里tree表示div的节点id
+ 
+ 既然是树形结构，那么就有根root;有了根才有枝叶生长。
+ store: new Ext.data.TreeStore({
+	root:{
+		text:'我是根',
+		leaf:true
+	}
+ })
+ 1.虽然只有一个根但是是一棵树形结构了，下面添加枝叶节点；
+ store: new Ext.data.TreeStore({
+	root:{
+		text:'我是根',
+		children: [{
+				text:'1枝',
+				children{
+					text:'1-1叶子',
+					leaf: true
+				}
+			},{
+				text:'1-叶子',
+				leaf:true
+			}]
+		}
+ })
+ 
+ // 让加载后的树直接展开：
+ Tree.getRootNode().expand(true,true);//parm1 是否展开 parm2 是否要动画效果
+ 
+ 2.树形配置
+ 在tree期望渲染的目标id放到{}中，对应树形为renderTo.
+ var tree = new Ext.tree.TreePanel({store:new Ext.data.TreeStore(), renderTo:'tree'}) // renderTo: id='tree'的div
+ 
+ 3.使用TreeStore获得数据 （后台交互）
+  store: new Ext.data.TreeStore({
+	proxy:{
+		type:'ajax',
+		url:'01-04.txt'
+	},
+	root:{
+		text:'我是根'
+	}
+  })
+  // 小细节； 返回json 中叶子都设置leaf , 非叶子设置children属性，就不会出现无限循环展开问题； 每次点击非叶子节点，都会请求后台，当前id作为参数
+  // 通过xml获取数据，165，通过proxy: extraParams:{isXml:true}; reader:{type:'xml'}等参数控制
+ ```
+
+ <h4 id='5.2'> 树的事件 </h4>  
+
+> 树的事件模型可以提供很丰富的树触发的事，如节点展开，折叠，单击，双击等； 
+
+```
+tree.on("itemexpand",function(node){
+	console.info(node,"展开了");
+});
+// itemcollapse->折叠 itemclick ->单击  itemcontextmenu->右键事件  
+
+tree.on("itemcontextmenu", function(view,record,item,index,e){
+	e.preventDefault();
+	contextmenu.showAt(e.getXY());
+	contextmenu.hide();
+});
+```
+
+ <h4 id='5.3'> 修改节点图标，提示信息，超链接 </h4>  
+
+ * node: {} node节点中，icon:'user_female.png', iconCls:'icon-male' 可以设置节点图标，icon优先级高
+ * node: qtip:'xxx' 参数作为提示信息 ，另//开启提示功能 -> Ext.QuickTips.init() 才可以使用，且一般在其他元素加载后， Ext.onReady(function(){// 这里写})
+ * node: href:'07-1.html', hrefTarget:'_blank'
+ 
+ <h4 id='5.4'> 树形拖放 p172 </h4>  
+ 
+ tree= new Ext.tree.TreePanel({
+	viewConfig:{
+		plugins:{ptype:'treeviewdragdrop'} //实现拖放
+	},
+	store:
+ })
+
+ * 节点拖放3种形式
+   - append
+   - above
+   - below
+ * 叶子不能append
+ * 判断拖放目标
+ * 树之间的拖放 176p
+
+ <h4 id='5.6'> 对树进行排序 </h4>  
+ 
+ 设置folderSort参数就可以实现为树形进行排序； 在store对象内加属性 folderSort: true
+ 
+<h4 id='5.7'> 带checkbox树形 178</h4>  
+ 
+ 只要为树形节点加checked:true就会显示对应的Checkbox; {text:'leaf no2',leaf: true, checked:flse}
+ 
+ <h4 id='5.8'> 树形与表格的结合 179</h4>  
+ 
+ 在Ext中，可以通过拓展treecolumn插件的方式实现表格与树形结合的效果。
+ 
+  <h4 id='5.9'> 更多树形的高级应用 (选中刷新等事件)182</h4>
+
+ * 选中树的某个节点； TreePanel的selectPath()函数，如selectPath('/root/leaf'); 选种id='root'下的id='leaf'节点；  treePanel.getSelectionModel()获取选中模型，sm有个select()函数，传入index或record可选中节点。
+ * 刷新树的所有节点： 根节点下有reload()函数，要刷新树，就取到根节点rootNode,再调用reload()函数；
+ * 借用grid的缓冲视图插件： 可以在tree中使用grid的缓冲视图插件，在需要渲染成千上万个树形节点时，只渲染当前显示的视图部分；自动监听滚动条的拖曳情况。保证海量数据加载时不卡顿。 plugins:[{ptype:'bufferedrenderer'}]
+ * 借用grid的锁定插件：  将某一列锁定，即使出现横向滚动条，锁定内容依然在视图内； 使用方法：{xtype:'treecolumn',text:'任务',locked:true}
+
+  <h4 id='5.10'> 小结183 </h4>
+
+ 本章讨论ext树的原理和使用方法，treeStore部分配置方式； 以及树形事件，包括右键菜单，修改节点图标，为节点设置提示信息，设置超链接，修改树形节点名称等内容；
+ 另外，几种介绍了树形拖放，多种树形拖放形式以及树形节点排序，最后一节介绍了表格与树的结合的拓展件以及树形的一些高级应用内容。
 
