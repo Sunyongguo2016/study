@@ -46,6 +46,18 @@
 *  [5.10 小结183](#5.10)
 
 ## [6.布局](#6)
+*  [6.1 布局介绍、用途](#6.1)
+*  [6.2 最简单的布局--FitLayout](#6.2)
+*  [6.3 常用的边框布局--BorderLayout](#6.3)
+*  [6.4 制定伸缩菜单的布局--Accordion](#6.4)
+*  [6.5 实现操作向导的布局--CardLayout 200](#6.5)
+*  [6.6 控制大小和位置的布局--AnchorLayout,AbsoluteLayout 202 ](#6.6)
+*  [6.7 表单专用组件--FormLayout 207](#6.7)
+*  [6.8 分列布局--ColumnLayout 209](#6.8)
+*  [6.9 表格状布局---TableLayout 211](#6.9)
+*  [6.10 BoxLayout--HBox，VBox 212](#6.10)
+*  [6.11 Ext.TabPanel 215](#6.11)
+*  [6.12 与布局相关的其他知识 220](#6.12)
 ## [7.弹出窗口](#7)
 ## [8.工作条与菜单](#8)
 ## [9.数据存储于传输](#9)
@@ -490,3 +502,236 @@ tree.on("itemcontextmenu", function(view,record,item,index,e){
  本章讨论ext树的原理和使用方法，treeStore部分配置方式； 以及树形事件，包括右键菜单，修改节点图标，为节点设置提示信息，设置超链接，修改树形节点名称等内容；
  另外，几种介绍了树形拖放，多种树形拖放形式以及树形节点排序，最后一节介绍了表格与树的结合的拓展件以及树形的一些高级应用内容。
 
+
+ <h2 id='6'> 布局 184 </h2>
+ 
+ <h4 id='6.1'> 布局介绍、用途 </h4>
+ 
+ Ext.Viewport类主要有2个配置参数： layout 和 items. layout:'border';表示我们使用BorderLayout的布局方式、边界布局；
+ 
+ ext中，所有的布局都是从Ext.Container开始的，Ext.Container父类是Ext.BoxComponent. Ext.BoxComponent是一个盒子模型，可定义宽度，高度，和位置， 更重要的是，Ext.Container可以使用layout和items属性为内部的子组件进行布局；
+ 我们常用的布局的子类只有几个，如使用`Ext.Viewport进行页面的整体布局`，使用`Ext.Panel和Ext.Window进行各种嵌套布局`，使用`Ext.form.FieldSet和Ext.form.FormPanel为表单`进行布局。
+ 
+ 与Ext.Container相似，所有的布局类也有一个共同的超类Ext.layout.ContainerLayout. 常用布局如边框布局BorderLayout, 表单布局FormLayout, 分列布局ColumnLayout和自动填充整个布局空间的自适应FitLayout.
+ 此外，还有绝对位置布局AbsoluteLayout, 折叠布局Accordion, 锚点布局AnchorLayout, 卡片布局CardLayout, 容器布局ContainerLayout,和表格布局TableLayout.
+ 
+ 
+ <h4 id='6.2'> 最简单的布局--FitLayout </h4> 
+ 
+ > Ext.Viewport进行整个页面范围的布局控制，Ext.Window中用于局部布局； 
+ 
+ 自适应布局，比如在内部放一个gird， 可以随着页面放大放大，页面缩小而缩小；
+ 
+ ```
+ var viewport = new Ext.Viewport({
+	layout:'fit',
+	items:[grid]
+ });
+ // Ext.Viewport进行整个页面范围的布局控制，
+ 
+ var win = new Ext.Window({
+	width : 400,
+	height:300,
+	layout:'fit',
+	items:[grid]
+ });
+ // Ext.Window进行局部布局
+ ```
+
+ // 注意事项： fit组件的items只能放一个子组件，否则也只会显示第一个组件； 使用Ext.Viewport进行整个页面范围的布局控制， Ext.Window中用于局部布局；
+ 
+ 
+  <h4 id='6.3'> 常用的边框布局--BorderLayout </h4> 
+ 
+  现实中我们用的最多的是Ext.layout.BorderLayout; BorderLayout 中的center是不可少的，而且并不是只有空空的5个分区，利用它的附加功能可以打造出更完美的布局。
+  
+  1. `设置子区域的大小`。 设置的是north,south,west,east4个部分的大小；north，south只能设置height，west和east,只能设置width; 除此之外的布局是BorderLayout自动计算的。 这里有个细节，不管是那个区域，如果设置了一个或多个autoHeight:true; 会严重影响布局，建议不要用这个参数；
+  
+  2. `使用split并限制范围`。使用split参数，可以出现拖动框，来改变固定的大小， north，south可上下拖放； west，east可以左右拖放；此时一般用minSize,maxSize限制范围，防止拖动太过影响布局。  
+  
+  2. `子区域的展开和折叠`。 collapsible:true 可折叠； 与title一起配合使用才可以； 另外可以在折叠的地方设置CSS样式；
+  
+> 下面介绍一些布局方式，与BorderLayout布局方式结合，可以实现更为复杂的功能； 继承下的2个主要属性layout, items;
+
+  <h4 id='6.4'> 制定伸缩菜单的布局--Accordion </h4> 
+  
+  与BorderLayout布局结合使用，west上放上Accordion布局，设置layout:'accordion',items:3个item；accordion下的子元素都要加title，不然出错；与布局有关的配置都写在了layoutConfig里了，（这是Ext.Container定义好的）
+  随后在进行布局时会自动赋给对一个的layout实例，并产生作用。 配置项如下： titleCollapse: 单击标题可折叠； animate, 展开和折叠使用动画效果； activeOntop；执行展开和折叠操作后，子面板的顺序不会改变。
+
+  <h4 id='6.5'> 实现操作向导的布局--CardLayout 200 </h4>   
+  
+  像扑克牌一样，可以吧中间的抽出来放到最上面，但每次只能看到一张卡片；适合做向导布局操作；
+  
+  设置layout:'card'就可以是先card布局，当前显示的子面板是用属性activeItem来控制的。 activeItem初始值为0，表示第一个item；  ----bbar是2个按钮，控制上下翻页的handler稍微复杂；可见原书
+  
+  ```
+  var navHandler = function(direction){
+	var wizard = Ext.getCmp('wizard').layout;
+	var prev = Ext.getCmp('move-prev');
+	var next = Ext.getCmp('move-next');
+	var activeId = wizard.activeItem.id;
+	
+	if(activeId == 'card-0'){
+		if(direction == 1){
+			wizard.setActiveItem(1); //坐标
+			prev.setDisabled(false);
+		}
+	}else if(activeId == 'card-1'){
+		if(direction == -1){
+			wizard.setActiveItem(0);
+			prev.setDisabled(true);
+		}else{
+			wizard.setActiveItem(2);
+			next.setDisabled(true);
+		}
+	}else if(activeId == 'card-2'){
+		if(direction == -1){
+			wizard.setActiveItem(1);
+			next.setDisabled(false);
+		}
+	}
+  }
+  ```
+  
+  <h4 id='6.6'> 控制大小和位置的布局--AnchorLayout,AbsoluteLayout 202 </h4>   
+ 
+ AnchorLayout 提供了一种灵活的布局方式，既可以为items中每个组件制定与总体布局大小的差值，也可设置一个比例使子组件可以根据整体自行计算本身的大小； 提供3中配置方式；
+ 
+ 1. 设置百分比/占外部整体布局的百分比，layout:'anchor', items[{anchor:'50% 50%'}]; 
+ 2. 设置像素 ， layout:'anchor', items [{anchor:'-50 -200'}]
+ 3. side方式 
+ 
+  > 206p 上面介绍了AnchorLayout之后，这里介绍AbsoluteLayout的布局， 该组件继承自AnchorLayout组件，可以通过x,y 参数控制子组件具体的定位；
+ 
+  <h4 id='6.7'> 表单专用组件--FormLayout 207 </h4>   
+ 
+	FormLayout是 AnchorLayout的一个子类，可以在它里面使用anchor设置宽和高的比例； FormPanel，主要用于表单布局，因为formpanel,才可以设置fieldLabel,boxLabel;
+ 
+ 下面是FormLayout 与Ext.form.BasicForm和Ext.form.Field对应的配置参数；
+ 
+	FormLayout提供的用于控制表单显示的参数：
+	```
+	hideLables  是否隐藏空间的标签
+	itemCls     表单显示的样式
+	lableAlign  标签的对其方式（左 中 右）
+	lablePad    标签空白的像素值
+	labelWidth  标签宽度
+	```
+	
+	FormLayout 为 Ext.form.Field 提供的配置参数如下：
+	```
+	clearCls       清空div渲染的css样式
+	fieldLabel     对应控件的标签内容
+	hideLabel      是否隐藏标签
+	itemCls        控件的css样式
+	labelSeparator 控件和标签之间的分隔符，默认“：”
+	labelStyle     标签的css样式
+	```
+ 
+ 下面演示用anchor对表单内的多个控件进行布局， 实现每个field的宽度占整体宽度的90%；而且宽度可以根据页面大小的变化自动调整。textarea的高度是自动延展的。
+ 使用anchor设置大小，不仅避免了考虑每个组件的宽度和高度（这样很麻烦），还可自动调整大小；（自适应）
+ 
+ ```
+ var viewport = new Ext.Viewport({
+	layout:'fit',
+	items:[{
+		xtype:'form',
+		title:'信息',
+		labelAlign:right,
+		labelWidth:50,
+		frame:true,
+		defaultType:'textfield',
+		items:[{
+			fieldLabel:'名称',
+			name:'name',
+			anchor:'90%'
+		},{
+			fieldLabel:'生日',
+			name:'birthday',
+			xtype:'datefield',
+			anchor:'90%'
+		},{
+			fieldLabel:'备注',
+			name:'desc',
+			xtype:'textarea',
+			anchor:'90% -100'
+		}]
+	}]
+ });
+ // 之前用width 和height手动控制field的大小，这里使用布局方式控制表单
+ ```
+ 
+  <h4 id='6.8'> 分列布局--ColumnLayout 209 </h4>   
+ 
+ ColumnLayout 是将整个容器进行竖直切分的布局方式，通过columnWidth控制宽度 ，是小于1的小数，ru(.25, .4, .35 = 1); 总和等于1， 如果大于1不会报错但是布局出错；
+ 
+ ```
+ var viewport = new Ext.Viewport({
+	layout:'column',
+	items:[{
+		title: 'column1',
+		width:120
+	},{
+		title: 'column2',
+		columnWidth: .7
+	},{
+		title: 'column3',
+		columnWidth: .3
+	}]
+ });
+ // 这样处理， column1保持宽度120， column2，column3 按7：3分剩下比例； columnWidth 所有的和等于1；具体匹配规则可见原文
+ ```
+ 
+  <h4 id='6.9'>  表格状布局---TableLayout 211 </h4>   
+
+ 表格布局可以类似于excel中的表格，形成合并单元格的效果； 形成的html中有一些tr td标签； 效果其实完全可以用BorderLayout,和 ColumnLayout等布局方式代替，而且这些布局方式更灵活；不过有些人喜欢TableLayout,觉得简单方便；
+ 事实上很少有人用；
+ 
+  <h4 id='6.10'>  BoxLayout--HBox，VBox 212 </h4>    
+ 
+ 可以用BoxLayout 可以将几个组件平行排列；VBox可以竖向排列；
+ 
+  <h4 id='6.11'>  Ext.TabPanel 215 </h4>    
+ 
+  TabPanel， 可以是多个不同内容的容器，任意组件直接使用add()函数便可添加到Ext.TabPanel中。如果不指定xtype,便默认用Ext.Panel为这些内容生成子面板。closable:true可以选择是否有关闭框。
+  
+  标签面板的滚动菜单：使用拓展plugins ; new Ext.TabPanel({plugins:[scrollerMenu]}); 
+  ```
+  var scrollerMenu = new Ext.ux.TabScrollerMenu({
+	maxText:15,
+	pageSize:5
+  })
+  ```
+  
+  竖直分组的标签面板， 需要引入3个文件，GroupTabPanel.js, GroupTab.js ,groupTabs.css是这个单元格的css样式。
+  
+   <h4 id='6.12'> 与布局相关的其他知识 220 </h4>    
+
+   1. 超类Ext.Container的公共配置与xtype的概念；
+   
+   超类Ext.Container是所有可以`布局组件`的超类，自身主要提供了items,layout2个属性；另外在特殊配置时非常有用的是layoutConfig参数；在实例化过程中当前类会把自身layoutConfig参数赋予layout对象
+   并进行配置； activeItem则表示当前显示的是哪一个组件下标从0开始；
+   
+   当子组件没有制定xtype参数时，就会使用上级组件中配置的defaultType来作为自身的xtype;
+   
+   ```
+   items:[{
+	xypte:'grid',
+	store:store,
+	columns:columns
+   }]
+   等同于
+   items:[{
+	new Ext.grid.GridPanel({
+		store:store,
+		columns:columns
+	})
+   }]
+   ```
+   
+  2. layout 超类Ext.layout.ContainerLayout
+   
+  3. 使用嵌套实现复杂布局
+  
+  center部分layout：border; ext的布局提供了很大的方便，在任何一个panel中设置layout:'border'，就可以将它再次分为5个区域； 这5个区域还可以再使用panel,并有region参数指定位置；
+  再在panel里面使用layout一直循环嵌套下去；
