@@ -835,3 +835,196 @@ tree.on("itemcontextmenu", function(view,record,item,index,e){
   <h4 id='7.5'> 向窗口中放入各种控件 241 </h4>    
    
    窗口继承自Ext.Panel， 因此可以支持内部嵌套其他组件，实现各种复杂的布局； 如加入grid, form， border布局的复杂布局等；
+   
+   
+   <h2 id='8'> 工具条和菜单 246</h2>     
+   
+  <h4 id='8.1'> 简单菜单 </h4>    
+  
+	```
+	var tb = new Ext.Toolbar(){
+	
+	};
+	tb.render('toolbar');
+	
+	tb.add({
+	text:'新增'
+	},{
+	text:'修改',
+	handler:function(){
+		Ext.Msg.alert('提示'，'新建');
+	}
+	});
+	
+	// 现在单击菜单上的按钮不会有任 何效果，如果想单击按钮后能执行某种操作， 需要handler()，事件处理函数
+	
+	```
+	
+     <h4 id='8.2'> 向菜单中添加分割线 </h4>   
+	 
+	 Ext.menu.Separator显示在页面上就是一天水平线；默认情况下，直接向菜单中添加链字符就可以使用菜单分割线了；
+	 
+     <h4 id='8.3'> 多级菜单 </h4>    
+   
+	我们可以使用memiu参数制定在菜单的那个部分加上子菜单。利用这种方法，我们就可以很容易地实现自己想要的实现自己想要的功能菜单了；
+   
+    <h4 id='8.4'> 高级菜单  251 </h4>
+
+	* 高级菜单
+	 - 高级菜单和单选菜单
+	 - 日期菜单
+	 - 颜色菜单 Ext.menu.ColorMenu
+	 - 在菜单中添加其他组件
+	 - 使用Ext.menu.MenuMgr统一管理菜单
+	
+	<h4 id='8.5'> 工具条详解  258 </h4>
+	
+	上面讲解了菜单的基本用法，下面将进一步讨论EXT 中与工具条相关的组件。
+	
+	位于最上层的是toolbar, 通常我们先创建一个toolbar, 再向里面添加各种菜单组件。 常用的有tbbutton, tbtext, tbspacer, tbseparator, tbfill;
+	
+	<h4 id='8.6'> 分页工具条 264 </h4>
+	
+	<h4 id='8.7'> 右键弹出菜单 267 </h4>
+	
+	<h4 id='8.8'> 处理工具条溢出 269 </h4>
+	
+	<h4 id='8.9'> 工具条中的分组按钮 270 </h4>
+	
+	<h4 id='8.10'> 更多工具条插件 270 </h4>
+	
+	<h4 id='8.11'> 状态栏 272 </h4>
+	
+	
+	<h2 id='9'> 数据存储与传输 275 </h2>
+	
+	<h4 id='9.1'> Ext.data命名空间下常用组件简介 276 </h4>
+   
+   Ext.data命名空间下，定义了一系列store,reader,proxy，表格，ComboBox都是以Ext.data为媒介获取数据的，包含异步加载，类型转换，分页等功能， 如果要实现新的协议和新的数据结构，只需要拓展reader,proxy即可
+   
+    <h4 id='9.2'> Ext.data.Connection 276 </h4> 
+   
+   Ext.data.Connection提供了对Ajax的封装，内部对浏览器兼容做了封装，提供了更简洁的配置方式，使用起来更方便。
+   使用示例 p276
+   
+	<h4 id='9.3'> Ext.data.Record 277 </h4> 
+  
+  如果把Ext.data.Store看作一张二维表，那么它每一行对应一个Ext.data.Record; 主要功能是保存数据，并在内部数据发生改变时记录修改的状态，保留修改之前的原始值。
+  使用Ext.data.Store时，通常是由create()函数开始的。
+  
+  ```
+  var personRecord = Ext.data.Record.create({
+	{name:'name',type:'string'},
+	{name:'sex',type:'int'}
+  });
+  var boy = new personRecord({
+	name:'boy',
+	sex:0
+  });
+  alert(boy.data.name);
+  ```
+  
+  这里涉及了Ext.data.Record的data属性，它是定义在Ext.data.Record中的一个公共属性，用于保存当前record对象的所有数据，是一个JSON对象；
+  
+  如果修改record的值，用set函数，boy.set('name','body name'); set()函数会判断属性值是否发生了改变，如果改变了，会将当前对象的dirty属性设置为true, 并将之前原始值放入modified对象中，供其他函数使用，如果直接修改data值，record就无法记录属性数据的修改情况。
+  
+  record的属性数据被修改后，可以执行以下几种操作：
+  * commit(); 提交， dirty设置为false, 删除modified中保存的原始数据。
+  * reject(); 撤销， 这个函数的效果是将data中已经修改的属性值都恢复成modified中保存的原始数据， dirty设置为false
+  * getChanges();
+  * isModifyed();  
+  
+	<h4 id='9.4'> Ext.data.Store 278 </h4>  
+	
+	Ext.data.Store 是Ext中用来进行数据交换和数据交互的标准中间件，无论是表格还是ComboBox, 都是通过它实现数据读取，类型转换，排序分页和搜索等操作的。
+	在Ext.data.Store中有一个Ext.data.Record数组，所有数据都存放在这些Ext.data.Record实例中，为后面的读取和修改做准备。
+	
+	```
+	var data = [
+		['boy',0],
+		['gril',1]
+	];
+	var store = new Ext.data.Store({
+		proxy : new Ext.data.MemoryProxy(data),
+		reader: new Ext.data.ArrayReader({},personRecord);
+	});
+	store.load();
+	```
+	
+	每个store至少有2个组件支撑，分别是proxy, reader,前者用于从某个途径读取原始数据，后者用于将原始数据转换成Record实例。
+	
+	sortInfo:{field:'name',direction:'DESC'}   加上这个属性会对name字段 自动降序排列； 可以通过getSortState() 函数，返回sortInfo里的json信息； p279
+	
+	`从store获取数据`, 直接一点的方法如根据record在store中的行号获得对应的record，然后就可以使用get() 函数获得里面的数据， 如 store.getAt(0).get('name');
+	
+	```
+	// 遍历store数据
+	for(var i=0; i<store.getCount(); i++){
+		var record = store.getAt(i);
+		alert(record.get('name'));
+	}
+	
+	// getRange() 函数，获取开始和结束的索引值
+	var records = store.getRange(0,1);
+	for(var i=0;i<ranges.length;i++){
+		var record=records[i];
+		alert(record.get('name'));
+	}
+	
+	// 另外还有store.getById()， find(), findBy(),query(), queryBy()函数找record的内容；
+	```
+	
+	`更新store中的数据`，p281;
+	使用add函数，add()可以store末尾添加一个或多个record, insert()可以指定索引，插入索引位置，remove()， removeAll()函数删除store中的Record行数据；
+	
+	store.getAt(0).set('name','xxxxx');修改store内部的record数据， 之后可以执行rejectChanges(), commitChanges()2中操作。
+	
+	`加载及显示数据`, store创建好后，需要load()函数加载数据，加载成功后才能对store中的数据进行操作。 store.baseParams参数是一个json对象，里面的数据会作为参数发送后天处理； 如store.baseParams.start=0;
+	
+	store，处理上面涉及到的数据获取，排序，更新，显示等功能外，store还提供了其他一些功能函数，以及事件：
+	
+	store提供的事件：
+	Add();  beforeload(); clear(); datachanged(); load(); loadexception(); metachange(); remove(); Update();
+	
+
+	<h4 id='9.5'> 常用Proxy 285 </h4>   
+	
+	proxy, 通过内存，http等不同媒介获取原始数据，再讲获取的数据交给对应的读取器进行处理。
+	
+	HttpProxy不支持跨域，如果要跨域参考ScriptTagProxy;
+	
+	```
+	var proxy = new Ext.data.HttpProxy({url:'xxx.jsp'});
+	var proxy = new Ext.data.ScriptTagProxy({url:'xxx.jsp'});
+	```
+ 
+	<h4 id='9.6'> 常用Reader 287 </h4>
+	
+	reader,数据读取器，讲数组，json等格式的原始数据转换为Ext中所需要的通用数据类型。 
+	
+	* ArrayReader, 从二维数组中依次读取数据，然后生成record, 用法简单，但不支持分页。 var data=[[],[]];
+	* JsonReader, 与arrayReader相比，json支持分页； 用mapping把嵌套的内部属性可以映射出来
+	* XmlReader,
+	
+	<h4 id='9.7'> 高级store 291 </h4> 
+
+	<h4 id='9.8'> Ext中的Ajax 292 </h4> 	
+	
+	```
+	Ext.Ajax.request({
+		url:'07-01.txt',
+		success:function(response){
+		// do something
+		},
+		failure:function(response){
+		//do something
+		},
+		params:{name:'value'}
+	});
+	
+	// 使用ajax乱码，建议将数据编码格式统一为UTF-8;
+	```
+	
+	<h4 id='9.9'> 关于scope和bind()解决this问题 293 </h4> 		
+	
+	<h4 id='9.10'> Ext Direct 295 </h4>
