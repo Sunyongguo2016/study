@@ -1,5 +1,8 @@
 ## java 多线程编程核心技术 高洪岩
-### 1. java 多线程技能
+### 1. java 
+> 介绍线程，如何使用线程启动线程， currentThread()方法 isAlive(), sleep(), getId()方法等，停止线程推荐方法：异常法；  暂停线程 suspend()与resume()方法使用；
+
+> yield（）停一小会线程， 线程的优先级学习，用户线程和守护线程了解。
 ### 2. 对象及变量的并发访问
 > 主要介绍了synchronized关键字使用，为学习同步打下基础； synchronized修饰的代码块具有原子性； synchronized可以修饰3种数据，对象，类.class文件，以及String常量如"123"；
 synchronized在分析代码的要点是分析是否要获得对象锁，然后就可以理解代码的执行顺序了。 synchronized锁是可重入的锁。 当出现异常时，锁会自动释放；
