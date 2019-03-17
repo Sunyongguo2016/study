@@ -25,5 +25,25 @@
 > ReentrantReadWriteLock类可以针对读写功能区分对待，比ReentrantLock可以更细致的控制对读和写操作进行加锁，
 优点是读读操作的线程间，使用读锁不互斥。增大资源利用效率 ； 
 ### 5. 定时器Timer
+> 1.如何实现指定时间执行任务 2.如何实现指定周期执行任务
+
+##### 5.1 定时器timer使用
+
+Timer类的主要作用是设置计划任务， 封装任务的类是TimerTask类， TimerTask实现runnable接口，将执行任务的代码放到timerTask类run方法中；
+
+timer.schedule(timertask task, date time); 任务延迟time执行
+
+Timer timer = new Timer(true); //守护线程，随着主线程结束结束； 否则主线程结束后自己仍然存在；
+
+一个timer 可以执行多个timer.schedule()，需要注意的是，timer.schedule()执行的多个任务是以队列的形式执行的，所以有可能和设置好的延迟data时间不一致；
+
+timer.schedule(TimerTask task,Date firstTime,long period); 设置任务task在指定的日期之后按照指定的时间间隔周期执行某一任务；
+
+TimerTask的cancel()方法的作用是将自身从任务队列中进行清除。
+
+timer.cancel() 方法的作用是将自己关联的所有任务task清除，并且销毁自身的进程； 有的时候不会执行成功，是因为和task竞争queue锁失败，然后让TimerTask类中的任务正常执行；
+
+timer.schedule() 和 timer.scheduleAtFixedRate() 区别， 后者具有追赶特性； 即后者可以把过时的任务都执行一次； 而前者之后执行当前时间之后的任务，对于过时的任务不管；
+
 ### 6. 单例模式与多线程
 ### 7. 查漏补缺
