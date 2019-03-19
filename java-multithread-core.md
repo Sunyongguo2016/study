@@ -71,3 +71,27 @@ synchronized在分析代码的要点是分析是否要获得对象锁，然后�
 > 序列化和反序列化的多线程单例 安全解决； 序列化的单例，在反序列化时，jvm就出现了一个一模一样的对象，违反了单例，解决办法是用默认readResolve()方法，如此在反序列化会自动调用该方法，返回指定的对象了；
 
 ### 7. 查漏补缺
+
+> 1. 线程的状态； new-->runnable-->terminated  runnable<-->waiting,blocked,timed_waiting; 相互转换；前面6种是枚举类；
+runnable 内部可以分为 ready 和 running状态；  通过Thread.currentThread().getState() 可以获得当前线程状态；
+
+> 2. 了解线程组的概念，方便管理规划
+
+> 3. SimpleDateFormat类，在多线程环境下很容易出错，是非线程安全的；处理方式1， 每次使用new 一个实例； 2.使用ThreadLocal<SimpleDateFormat> 处理；
+
+> 4. 异常的处理方式； 使用UncaughtExceptionHandler类对异常进行捕捉，可以对异常进行清晰的处理； t.setUncaughtExceptionHandler()是给指定线程对象设置的异常处理器；
+另外可以给Thread类设置默认异常处理器，了解线程组内处理异常，异常的传递等；
+
+```
+new UncaughtExceptionHandler(){
+  @Override
+  public void uncaughtException(Thread t,Throwable e){
+    syso t.getName(), e.getMessage();
+	e.printStackTrace();
+  }
+};
+```
+
+> 本章是对前面章节的补充； 比如，理解线程的状态后，完全可以对不同状态下的线程正在做哪些事情了如指掌； 学习了线程组后可以对线程的组织实施有更有效的规划；
+SimpleDateFormat类在遇到多线程时也会出现意想不到的异常，最后介绍了对异常的处理方式；
+
