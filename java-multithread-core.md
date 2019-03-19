@@ -61,4 +61,13 @@ synchronized在分析代码的要点是分析是否要获得对象锁，然后�
 8. timer.schedule() 和 timer.scheduleAtFixedRate() 区别， 后者具有追赶特性； 即后者可以把过时的任务都执行一次； 而前者之后执行当前时间之后的任务，对于过时的任务不管；
 
 ### 6. 单例模式与多线程
+
+> 手写立即加载，延时加载的单例模式（单例，所以对象是private static 不可被外部访问的，静态属性） 通过static 对象 getInstance()获得单例; 立即加载的单例在多线程没有线程安全问题，
+对象的hashcode一致； 
+
+> 解决多线程下懒汉模式不安全的方法，1,对static getInstance()加 synchronized; 2. 对内部代码块加synchronized;其实都很耗费资源， 解决办法是3. 双检查锁机制 DCL（double check locking）
+另外，或者通过static块 new实例； 本质上和立即加载差不多；
+
+> 序列化和反序列化的多线程单例 安全解决； 序列化的单例，在反序列化时，jvm就出现了一个一模一样的对象，违反了单例，解决办法是用默认readResolve()方法，如此在反序列化会自动调用该方法，返回指定的对象了；
+
 ### 7. 查漏补缺
