@@ -6,7 +6,7 @@
 
 ### btrace: 线上，预发排查问题工具
 
-类似loadrunner的脚本或者java的controller上生命的注解，通过编写脚本对class类中的方法进行监听，获取需要的数据和信息,
+类似loadrunner的脚本或者java的controller上生命的注解，通过编写脚本对class类中的方法进行监听，获取需要的数据和信息,下面列举简答使用demo,根据demo,自行拓展可以配置的参数
 
 ```
 // 测试目标类
