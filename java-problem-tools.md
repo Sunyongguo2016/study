@@ -4,6 +4,8 @@
 
 > 整体分为几个大类，如linux命令类，排查工具btrace，eclipse插件eclipseMAT，idea插件key promoter，maven helper,java环境自带的查看jvm的命令，以及其他
 
+### linux命令
+
 ### btrace: 线上，预发排查问题工具
 
 类似loadrunner的脚本或者java的controller上生命的注解，通过编写脚本对class类中的方法进行监听，获取需要的数据和信息,下面列举简答使用demo,根据demo,自行拓展可以配置的参数
@@ -126,5 +128,20 @@ eclipse 插件
 ### key promoter
 idea插件 快捷键提示插件
 
+### java自带jvm分析命令
+
 ### maven helper
 idea插件 以树形结构查看maven依赖，快速找到冲突jar包，解决冲突
+
+### VM options
+1. -XX:+TraceClassLoading 类从哪里来
+ 结果形如[Loaded java.lang.invoke.MethodHandleImpl$Lazy from D:\programme\jdk\jdk8U74\jre\lib\rt.jar]
+2. 应用挂了输出dump文件
+ -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/admin/logs/java.hprof
+
+### jar包冲突
+
+### dmesg 如jvm进程消失且没有痕迹场景
+
+### RateLimiter
+控制QPS在一定时间内响应帮助工具
