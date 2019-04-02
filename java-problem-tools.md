@@ -4,3 +4,102 @@
 
 > 整体分为几个大类，如linux命令类，排查工具btrace，eclipse插件eclipseMAT，idea插件key promoter，maven helper,java环境自带的查看jvm的命令，以及其他
 
+> btrace: 线上，预发排查问题工具，类似loadrunner的脚本或者java的controller上生命的注解，通过编写脚本对class类中的方法进行监听，获取需要的数据和信息,
+
+```
+// 测试目标类
+public class Calculator {
+    private int c = 1;
+
+    public int add(int a, int b) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return a + b;
+    }
+}
+
+// 测试代码 具体参数，配置方法百度
+@BTrace
+public class BTraceTest {
+    private static long count;
+    static{
+        println("---------------------------JVM properties:---------------------------");
+        printVmArguments();
+        println("---------------------------System properties:------------------------");
+        printProperties();
+        println("---------------------------OS properties:----------------------------");
+        printEnv();
+        exit();
+    }
+
+    @OnMethod(
+            clazz = "Calculator",
+            method = "add",
+            location = @Location(Kind.RETURN)
+    )
+    public static void trace1(int a, int b, @Return int sum) {
+        println("trace1:a=" + a + ",b=" + b + ",sum=" + sum);
+        //trace1:a=2,b=6,sum=8
+    }
+    
+    @OnMethod(
+            clazz = "Calculator",
+            method = "add",
+            location = @Location(Kind.RETURN)
+    )
+    public static void trace2(@Duration long duration) {
+        // 执行时间 纳秒 秒
+        println(strcat("duration(nanos): ", str(duration)));
+        println(strcat("duration(s): ", str(duration / 1000000000)));
+    }
+    
+    @OnMethod(
+            clazz = "Calculator",
+            method = "add",
+            location = @Location(value = Kind.CALL, clazz = "/.*/", method = "sleep")
+    )
+    public static void trace3(@ProbeClassName String pcm, @ProbeMethodName String pmn,
+                              @TargetInstance Object instance, @TargetMethodOrField String method) {
+        // trace3追踪Calculator类的add方法，并且追踪add方法中的任何类的sleep方法
+        println(strcat("ProbeClassName: ", pcm));
+        println(strcat("ProbeMethodName: ", pmn));
+        println(strcat("TargetInstance: ", str(instance)));
+        println(strcat("TargetMethodOrField : ", str(method)));
+        println(strcat("count: ", str(++count)));
+    }
+    
+     @OnTimer(6000)
+    public static void trace4() {
+        // 每隔6秒打印count值
+        println(strcat("trace4:count: ", str(count)));
+    }
+    
+    @OnMethod(
+            clazz = "Calculator",
+            method = "add",
+            location = @Location(Kind.RETURN)
+    )
+    public static void trace5(@Self Object calculator) {
+        // 获取Calculator类的c属性的值
+        println(get(field("Calculator", "c"), calculator));
+    }
+    
+     @OnTimer(4000)
+    public static void traceMemory() {
+        // 每隔4秒打印一次堆和非堆内存信息
+        println("heap:");
+        println(heapUsage());
+        println("no-heap:");
+        println(nonHeapUsage());
+    }
+    
+     @OnTimer(4000)
+    public static void trace6() {
+        // 每隔4秒检测是否有死锁产生，并打印产生死锁的相关类信息、对应的代码行、线程信息
+        deadlocks();
+    }
+}
+```
