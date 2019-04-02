@@ -109,3 +109,22 @@ public class BTraceTest {
     }
 }
 ```
+
+### Greys
+sc -df xxx: 输出当前类的详情,包括源码位置和classloader结构
+trace class method: 相当喜欢这个功能! 很早前可以早JProfiler看到这个功能。打印出`当前方法调用的耗时情况，细分到每个方法`
+
+### javOSize
+通过修改字节码修改内容，即时生效，方便直接写日志，前提需要知道自己在干什么
+
+### JProfiler
+之前判断许多问题要通过JProfiler，但是现在Greys和btrace基本都能搞定了； 生产环境一般隔绝网络，一般不怎么用
+
+### eclipseMAT
+eclipse 插件
+
+### key promoter
+idea插件 快捷键提示插件
+
+### maven helper
+idea插件 以树形结构查看maven依赖，快速找到冲突jar包，解决冲突
