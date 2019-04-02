@@ -4,7 +4,9 @@
 
 > 整体分为几个大类，如linux命令类，排查工具btrace，eclipse插件eclipseMAT，idea插件key promoter，maven helper,java环境自带的查看jvm的命令，以及其他
 
-> btrace: 线上，预发排查问题工具，类似loadrunner的脚本或者java的controller上生命的注解，通过编写脚本对class类中的方法进行监听，获取需要的数据和信息,
+### btrace: 线上，预发排查问题工具
+
+类似loadrunner的脚本或者java的controller上生命的注解，通过编写脚本对class类中的方法进行监听，获取需要的数据和信息,
 
 ```
 // 测试目标类
