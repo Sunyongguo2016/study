@@ -1,7 +1,9 @@
 ## Java内存笔记
 >>  from java架构沉思录 -- 一文理清Java内存区域
 原文
-https://mp.weixin.qq.com/s?__biz=MzAxNjM2MTk0Ng==&mid=2247485026&idx=1&sn=982cd439af2e9850dfe2770e2673fe40&chksm=9bf4b6d7ac833fc1ad4163a00e12072ccb7884b8cfb046d8c1a6965b985752c5b1c2c57774a3&mpshare=1&scene=1&srcid=0912zudJNxS2x1be4OFl58Nv#rd
+[c-java内存模型(https://mp.weixin.qq.com/s?__biz=MzAxNjM2MTk0Ng==&mid=2247485026&idx=1&sn=982cd439af2e9850dfe2770e2673fe40&chksm=9bf4b6d7ac833fc1ad4163a00e12072ccb7884b8cfb046d8c1a6965b985752c5b1c2c57774a3&mpshare=1&scene=1&srcid=0912zudJNxS2x1be4OFl58Nv#rd)
+
+
 
 根据《java虚拟机规范》将Java虚拟机所管理的内存分为以下几个运行时数据区域：
  * 线程私有内存
