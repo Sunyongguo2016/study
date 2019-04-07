@@ -15,11 +15,11 @@ https://guides.github.com/features/mastering-markdown/
 
 ## 2.linux学习  0.2
 > #### 1. 马哥linux运维基础班学习
-> linux-basis.md
+> [linux-basis.md](https://github.com/Sunyongguo2016/study/blob/master/linux-basis.md)
 > #### 2. 马哥linux高深运维学习
-> linux-senior.md
+> [linux-senior.md](https://github.com/Sunyongguo2016/study/blob/master/linux-senior.md) 
 > #### 3.慕课快速上手linux玩转典型应用
-> linux-muke.md
+> [linux-muke.md](https://github.com/Sunyongguo2016/study/blob/master/linux-muke.md) 
 
 ## 3.java 架构师 0.3
 > #### 1.待完善
