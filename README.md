@@ -9,7 +9,8 @@
 ## 学习课程
 
 ## 1.mark-down学习 0.9
-> mark-down.md
+> [mark-down.md](https://github.com/Sunyongguo2016/study/blob/master/mark-down.md "mark-down")
+
 https://guides.github.com/features/mastering-markdown/
 
 ## 2.linux学习  0.2
