@@ -61,7 +61,7 @@ https://guides.github.com/features/mastering-markdown/
 > [springboot-stepbystep.md](https://github.com/Sunyongguo2016/study/blob/master/springboot-stepbystep.md)
 
 ## 14.自己随想
-> [my-essay.md](https://github.com/Sunyongguo2016/study/blob/master/my-essay.md)
+> [my-essay.md](https://github.com/Sunyongguo2016/study/blob/master/my-essays.md)
 
 
 ## 15.拆掉思维的墙
