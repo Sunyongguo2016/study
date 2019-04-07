@@ -145,4 +145,92 @@ abstract Product factoryMethod(String type)
  * 工厂方法模式--定义了一个创建对象的接口，但由于类决定要实例化的类是哪一个，工厂方法让类把实例化推迟到子类；
  * 这2个模式可以将对象的创建封装起来，以便得到更松的耦合，更有弹性的设计，工厂是很有威力的技巧，指导我们依赖抽象编程，而不是针对实现类编程。
  
+
 ### 5. 单例模式
+
+* 5.1 单例模式定义
+
+单例模式确保类只有一个实例，并提供一个全局访问点。 类自己管理一个单独实例，避免其他类再自行产生实例，想取得单件实例，通过单件类是唯一途径。
+
+* 5.2 同步下的单例
+
+同步一个方法可能造成程序执行效率下降100倍，因此，getInstance()程序使用在频繁运行的地方，可能要重新考虑了。
+
+```
+// 饿汉式创建实例 
+public class Singleton{
+	private static Singleton uniqueInstance = new Singleton();
+	private Singleton(){}
+	public static Singleton getInstance(){
+		return uniqueInstance;
+	}
+}
+// 利用这个做法，依赖JVM在加载这个类时马上创建此唯一的单件实例。JVM保证在任何线程访问uniqueInstance静态变量之前，一定先创建实例。
+
+
+// 双重检查加锁 dcl 方式； 懒汉模式下的线程安全单例；
+public class Singleton{
+	private volatile static Singleton uniqueInstance;
+	private Singleton(){}
+	public static Singleton getInstance(){
+		if(uniqueInstance == null){
+			synchronized (Singleton.class){
+				if(uniqueInstance==null){
+					uniqueInstance = new Singleton();
+				}
+			}
+		}
+	}
+}
+// 异常DCL方式 只在1.4以上版本适用； 如果性能是你关注的重点，那么这个做法可以帮你大大减少getInstance()的时间耗费。
+```
+
+* 5.3 小结
+
+单例模式--确保一个类只有一个实例，并提供全局访问点； 另外注意一点是，如果多个类加载器，会产生多个实例；
+
+### 6.命令模式
+
+> 本章我么将把封装带到一个全新的境界，把方法调用封装起来；通过封装方法，可以做一些很聪明的事，如记录日志等；
+命令模式，可以将‘动作的请求者’从‘动作的执行者’对象中解耦；
+
+* 6.1 命令模式
+
+命令模式将‘请求’封装成对象，以便使用不同的请求，队列或者日志来参数化其他对象。命令模式也支持可撤销的操作。 （把命令作为一个类）
+
+命令模式，把命令Command当做一个对象，把接受者receive作为对象传到Command中，command包含receive; command.execute()，执行接受者的具体命令；
+
+关键类3个， Command类（包含receive实例，execute方法）；receive类（包含action｛｝方法，具体执行什么）；另外一个类是RemoteController类，控制器类，（存储多个命令实例，调用命令执行方法如 onButtonWasPushed(int slot){commands[slot].execute();}）
+
+NoCommand implements Command;  NoCommand 对象是一个空对象（null object）例子，当不想返回一个有意义的对象时，空对象就很有用。 许多设计模式会看到空对象的使用，有些时候空对象本身也是一种设计模式。
+
+
+* 6.2 撤销命令
+
+```
+public interface Command{
+	public void execute(){};
+	public void undo();
+}
+```
+execute()执行命令， undo()撤销命令； undo（执行具体实现类Command的相反即可）； 然后更高级的撤销命令是有状态位，判断的撤销命令，如三级风扇的撤销；
+
+宏命令： 宏命令是一系列命令的集合； 可以通过MacroCommand implements Command{Command[] commands;} 来实现宏命令，宏命令同样是命令，内部有一系列命令，然后execute{}可以遍历执行一系列命令； undo{}遍历取消所有命令
+
+* 6.3 命令模式的更多用途：队列请求；
+
+工作队列类和进行计算的对象之间是完全解耦的。此刻线程在进行财务运算，下一刻在读取网络数据；工作队列不知道线程在做什么只是读取命令对象，然后执行其execute方法；类似地，他们只要
+是实现命令模式的对象，就可以放入队列中，当线程可用时，就调用此对象的execute（）方法；
+
+日志请求：
+
+某些应用需要将我们所有操作记录到日志中，并能在系统死机后，再次启动重新调用这些动作回复之前的状态； 我们执行命令的时候，将历史记录从磁盘读取出来，将命令对象重新加载，并成批地依次调用这些队形的execute方法；
+这种方式可以拓展到事务中，不必记录每次执行的数据结果，而是记录命令，一整群操作必须全部完成，或者没有进行任何的操作。 `每个命令被执行时，execute{store(),load()}`会存储然后执行；这样系统死机后也可以重新加载命令，正确执行；
+
+* 6.4 小结
+
+> 在本节，我们加入一个模式，允许我们将动作封装成命令对象，这样一来就可以随心所欲地存储，传递和调用它们。
+
+> 命令模式将发出请求的对象和执行请求的对象解耦；通过命令对象沟通，共3种类；‘调用者’通过调用'命令对象'的execute发出请求，这会使得‘接受者’的动作被执行； 另外还有撤销命令，宏命令；命令也可以用来实现日志和事务系统；
+
+> 命令模式，将请求封装成对象，这可以让你使用不用的请求，队列，或者日志请求来参数化其他对象。命令模式也支持撤销，宏命令；
