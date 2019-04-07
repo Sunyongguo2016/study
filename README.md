@@ -17,7 +17,7 @@ https://guides.github.com/features/mastering-markdown/
 > #### 1. 马哥linux运维基础班学习
 > [linux-basis.md](https://github.com/Sunyongguo2016/study/blob/master/linux-basis.md)
 > #### 2. 马哥linux高深运维学习
-> [linux-senior.md](https://github.com/Sunyongguo2016/study/blob/master/linux-senior.md) 
+> [linux-senior.md](https://github.com/Sunyongguo2016/study/blob/master/linux-senior.md "linux-senior.md") 
 > #### 3.慕课快速上手linux玩转典型应用
 > [linux-muke.md](https://github.com/Sunyongguo2016/study/blob/master/linux-muke.md) 
 
