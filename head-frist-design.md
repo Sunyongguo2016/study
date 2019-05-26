@@ -450,7 +450,7 @@ Quackable redheadDuck = new QuackCounter(new RedheadDuck());
 ```
 
 
-> MVC是数个设计模式的整合； 从设计模式上理解MVC；
+> MVC是数个设计模式的整合，结合了观察者模式、策略模式和组合模式
 
 * 小结：
 
