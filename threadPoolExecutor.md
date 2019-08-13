@@ -1,0 +1,85 @@
+  1. 线程池的使用， 采用阿里巴巴java规范推荐的方式，
+  2.  线程池参数怎么写； 
+  3. 线程池 线程执行过程，继承了ThreadPoolExecutor类， 在beforeExecute() afterExecute() 可以怎么做； 做日志，收集数据；
+  
+  
+  ```
+  //---继承 ThreadPoolExecutor class, 在beforeExecute afterExecute,中存入记录
+   public class MyThreadPoolExecutor extends ThreadPoolExecutor {
+
+    /**
+     * @param corePoolSize 核心线程数 执行中中的线程数
+     * @param maximumPoolSize 最大线程数 包括等待的
+     * @param keepAliveTime 线程销毁等待时间 空闲线程多长时间后销毁
+     * @param unit 时间单位
+     * @param workQueue 等待队列
+     * @param threadFactory 线程构造工厂 通常用于设置线程名称 方便记录线程信息
+     * @param handler 阻塞队列满了之后的线程池操作 通常使用{@link RejectedExecutionHandler} 例如AbortPolicy 直接抛出异常
+     */
+    public VisThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
+        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+    }
+
+    @Override
+    protected void beforeExecute(Thread t, Runnable r) {
+        // 收集数据，保存日志， 在单个线程执行run方法前执行这里
+        // 记录 thread name / task code / user code / time
+
+		    reportDataSyncLogDao.save(log);
+        super.beforeExecute(t, r);
+    }
+
+    @Override
+    protected void afterExecute(Runnable r, Throwable t) {
+        // 异常处理， 日志处理，收集信息
+       // r表示运行的线程, t表示运行中 线程抛出的异常， 这里一般是运行时异常
+			 reportDataSyncLogDao.save(log);
+       super.afterExecute(r, t);
+    }
+    }
+    ```
+    
+    ```
+    //====2. 下面这种创建线程池的方式 是阿里巴巴java开发规范建议的一种创建线程方式，需要google 的包；
+    public class ReportDataSyncThreadFactory {
+	 /**
+     * 在系统启动时初始化
+     */
+    public static MyThreadPoolExecutor executor;
+
+    /**
+     * 初始化方法
+     * 启动时调用
+     */
+    public static void init() {
+        ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("task-syncSave-%d").build();
+
+        int reportThreadsNum = 20;
+        
+        /**
+         * 阻塞队列采用了LinkedBlockingQueue，没有设置大小，它是一个无界队列；
+         * 设置大小后，超出核心线程的任务进入队列里，超出队列新建线程，不允许超出最大线程参数； 如果又超出最大线程数，抛出异常，丢弃任务；
+         */
+         
+        executor = new VisThreadPoolExecutor(5, reportThreadsNum,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingDeque<Runnable>(reportThreadsNum), threadFactory, new ThreadPoolExecutor.AbortPolicy());
+    }
+
+    /**
+     * 销毁线程池
+     */
+    public static void destroy() {
+        executor.shutdown();
+    }
+   }
+
+    ```
+    
+    ```
+    线程执行时，直接调用即可
+    ReportDataSyncThreadFactory.executor.execute(xxxThread);
+    ```
+    
+    
+    
