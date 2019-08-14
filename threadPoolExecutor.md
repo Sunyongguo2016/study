@@ -1,7 +1,13 @@
   1. 线程池的使用， 采用阿里巴巴java规范推荐的方式，
   2.  线程池参数怎么写； 
   3. 线程池 线程执行过程，继承了ThreadPoolExecutor类， 在beforeExecute() afterExecute() 可以怎么做； 做日志，收集数据；
-  
+  4. 下面是使用中遇到4篇好的文章
+
+
+  [ThreadPoolExecutor-1-掘金](https://juejin.im/post/5b25b3d0f265da597d0a9803)
+  [ThreadPoolExecutor-2-csdn](https://blog.csdn.net/qq_25806863/article/details/71126867)
+  [ThreadPoolExecutor-3-简书](https://www.jianshu.com/p/b42cdf3f9af8)
+  [ThreadPoolExecutor-4-cnblog](https://www.cnblogs.com/zedosu/p/6665306.html)
   
   ```
   //---继承 ThreadPoolExecutor class, 在beforeExecute afterExecute,中存入记录
