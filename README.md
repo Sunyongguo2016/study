@@ -80,6 +80,9 @@ https://guides.github.com/features/mastering-markdown/
 
 ## 19.线程池学习笔记 
 > [thread-pool.md](https://github.com/Sunyongguo2016/study/blob/master/thread-pool.md)
+> [threadPoolExecutor.md](https://github.com/Sunyongguo2016/study/blob/master/threadPoolExecutor.md)
+
+
 
 ## 20.java问题排查工具单
 > [java-problem-tools.md](https://github.com/Sunyongguo2016/study/blob/master/java-problem-tools.md)
