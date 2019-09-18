@@ -90,3 +90,6 @@ https://guides.github.com/features/mastering-markdown/
 
 ## 21.head-frist设计模式
 > [head-frist-design.md](https://github.com/Sunyongguo2016/study/blob/master/head-frist-design.md)
+
+## 22.thread-local 笔记
+> [threadlocal.md](https://github.com/Sunyongguo2016/study/blob/master/threadlocal.md)
