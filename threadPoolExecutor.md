@@ -17,9 +17,10 @@
    public class MyThreadPoolExecutor extends ThreadPoolExecutor {
 
     /**
-     * @param corePoolSize 核心线程数 执行中中的线程数
+     * @param corePoolSize 核心线程数 执行中中的线程数, 由于新建core thread 后不自动停止，所以看任务类型，如果是每天跑一次这种不常用的，核心数设置为0，用完就移除； 如果任务执行频度比较高，设置一个合理的核心线程数，一直用来执行任务。
      * @param maximumPoolSize 最大线程数 包括等待的，使用无界队列的话这个参数无效
-     * @param keepAliveTime 线程销毁等待时间 空闲线程多长时间后销毁
+     * @param keepAliveTime 线程池中超过corePoolSize数目的空闲线程最大存活时间； corePoolSize线程创建了不销毁
+     * 当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭 
      * @param unit 时间单位
      * @param workQueue 等待队列
      * @param threadFactory 线程构造工厂 通常用于设置线程名称 方便记录线程信息debug 和定位问题很有帮助
@@ -54,7 +55,7 @@
 	 /**
      * 在系统启动时初始化
      */
-    public static MyThreadPoolExecutor executor;
+    private MyThreadPoolExecutor executor;
 
     /**
      * 初始化方法
@@ -63,7 +64,8 @@
     public static void init() {
     //用于设置创建线程的工厂，可以通过线程工厂给每个创建出来的线程设置更有意义的名字，Debug和定位问题时非常又帮助
         ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("task-syncSave-%d").build();
-
+       // CustomThreadFactory;
+       
         int reportThreadsNum = 20;
         
         /**
@@ -76,6 +78,10 @@
                 new LinkedBlockingDeque<Runnable>(reportThreadsNum), threadFactory, new ThreadPoolExecutor.AbortPolicy());
     }
 
+    public MyThreadPoolExecutor  getMyThreadPoolExecutor (){
+         return this.executor;
+    }
+    
     /**
      * 销毁线程池
      */
@@ -108,8 +114,62 @@
 			e.printStackTrace();
 		}
     }
+   
+ 
+    
    }
 
+
+public class CustomThreadPoolExecutor {
+
+  /**
+	 * 线程池初始化方法
+	 * 
+	 * corePoolSize 核心线程池大小----10
+	 * maximumPoolSize 最大线程池大小----30
+	 * keepAliveTime 线程池中超过corePoolSize数目的空闲线程最大存活时间----30+单位TimeUnit
+	 * TimeUnit keepAliveTime时间单位----TimeUnit.MINUTES
+	 * workQueue 阻塞队列----new ArrayBlockingQueue<Runnable>(10)====10容量的阻塞队列
+	 * threadFactory 新建线程工厂----new CustomThreadFactory()====定制的线程工厂
+	 * rejectedExecutionHandler 当提交任务数超过maxmumPoolSize+workQueue之和时,
+	 * 							即当提交第41个任务时(前面线程都没有执行完,此测试方法中用sleep(100)),
+	 * 						          任务会交给RejectedExecutionHandler来处理
+	 */
+	public void init() {
+		pool = new ThreadPoolExecutor(
+				10,
+				30,
+				30,
+				TimeUnit.MINUTES,
+				new ArrayBlockingQueue<Runnable>(10),
+				new CustomThreadFactory(),
+				new CustomRejectedExecutionHandler());
+	}
+	
+      private class CustomThreadFactory implements ThreadFactory {
+
+		private AtomicInteger count = new AtomicInteger(0);
+		
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread t = new Thread(r);
+			String threadName = CustomThreadPoolExecutor.class.getSimpleName() + count.addAndGet(1);
+			System.out.println(threadName);
+			t.setName(threadName);
+			return t;
+		}
+	}
+	
+    private class CustomRejectedExecutionHandler implements RejectedExecutionHandler {
+
+		@Override
+		public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+			// 记录异常
+			// 报警处理等
+			System.out.println("error.............");
+		}
+	}
+   }
     ```
     
     ```
@@ -131,5 +191,7 @@
     
   ```
   强烈建议使用有界队列，否则队列可能不断增加，影响其他任务； 比如和数据库交互的任务，刚好数据库出问题了， 结果任务无法执行，之后不断有和数据库交互的任务进入队列，如果此时队列无界，就会一直拓展。
-  
+ 
+ ```
+线程池 建议把同类型的任务，放在一个线程，比如都是消耗CPU的类型，或者都是消耗IO的类型的任务； 方便根据特性，决定设置线程池参数。
   ```
