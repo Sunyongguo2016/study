@@ -24,6 +24,7 @@
      * @param unit 时间单位
      * @param workQueue 等待队列
      * @param threadFactory 线程构造工厂 通常用于设置线程名称 方便记录线程信息debug 和定位问题很有帮助
+     * 创建线程的工厂，一般都是采用Executors.defaultThreadFactory()方法返回的DefaultThreadFactory
      * @param handler 阻塞队列满了之后的线程池操作 通常使用{@link RejectedExecutionHandler} 例如AbortPolicy 直接抛出异常
      */
     public VisThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
