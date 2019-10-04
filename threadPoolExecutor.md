@@ -16,6 +16,13 @@
   //---继承 ThreadPoolExecutor class, 在beforeExecute afterExecute,中存入记录
    public class MyThreadPoolExecutor extends ThreadPoolExecutor {
 
+/**
+任务队列大小有限时
+
+当LinkedBlockingDeque(size)塞满时，新增的任务会直接创建新线程来执行，当创建的线程数量超过最大线程数量时会抛异常。
+SynchronousQueue没有数量限制。因为他根本不保持这些任务，而是直接交给线程池去执行。当任务数量超过最大线程数时会直接抛异常。
+
+*/
     /**
      * @param corePoolSize 核心线程数 执行中中的线程数, 由于新建core thread 后不自动停止，所以看任务类型，如果是每天跑一次这种不常用的，核心数设置为0，用完就移除； 如果任务执行频度比较高，设置一个合理的核心线程数，一直用来执行任务。
      * @param maximumPoolSize 最大线程数 包括等待的，使用无界队列的话这个参数无效
