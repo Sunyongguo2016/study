@@ -12,6 +12,9 @@
   
   [ThreadPoolExecutor-4-cnblog](https://www.cnblogs.com/zedosu/p/6665306.html)
   
+  有基础后详读&加深记忆细节：
+  [线程池详解-java团长-林冠宏](https://mp.weixin.qq.com/s?__biz=MzIwMTY0NDU3Nw==&mid=2651939964&idx=2&sn=65f86227d4aad75a96afa4111d9492dc&chksm=8d0f0b32ba788224f6b7a68279ad047993d41af8401e04f2bd70054d0b93a77ded5481fff83c&scene=0&xtrack=1&key=a43ea466d03028f9409b7ea08105d0f6527670ee4f04ce0abece88eef1c04f7fbe6adcada8cb282ade7e6fe29f29a1a7e8401159e6e58bef1fb632010c1bd6d9a13e37a0d583a9941b0f48b9ee86e973&ascene=14&uin=MjUwOTQxMzEzNw%3D%3D&devicetype=Windows+7&version=62060833&lang=zh_CN&pass_ticket=7mQZ6BjFmlHntAhelfuMIYlv%2B4C5LzpLk6TL4IfNggUpkVnNDN6mVUyuCJ1LYrey)
+  
   ```
   //---继承 ThreadPoolExecutor class, 在beforeExecute afterExecute,中存入记录
    public class MyThreadPoolExecutor extends ThreadPoolExecutor {
