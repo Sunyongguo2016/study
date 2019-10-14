@@ -39,3 +39,11 @@ Java对象的eqauls方法和hashCode方法是这样规定的：
 
 Hashset、Hashmap、Hashtable与hashcode()和equals()的密切关系
 
+```
+重写equals()和hashcode()小结：
+
+　　1.重点是equals，重写hashCode只是技术要求（为了提高效率）
+      2.为什么要重写equals呢？因为在java的集合框架中，是通过equals来判断两个对象是否相等的
+      3.在hibernate中，经常使用set集合来保存相关对象，而set集合是不允许重复的。在向HashSet集合中添加元素时，其实只要重写equals()这一条也可以。但当hashset中元素比较多时，或者是重写的equals()方法比较复杂时，我们只用equals()方法进行比较判断，效率也会非常低，所以引入了hashCode()这个方法，只是为了提高效率，且这是非常有必要的。
+```
+
