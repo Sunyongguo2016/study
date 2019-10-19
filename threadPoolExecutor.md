@@ -240,6 +240,7 @@ shutdownnow -> STOP: 该状态下线程池不再接受新任务，但是不会�
         try {
             // 等待 60 s
             if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+	    //使用awaitTermination，建议在上面的基础上增加一定重试次数。这个真的很重要！！
                 // 调用 shutdownNow 取消正在执行的任务
                 threadPool.shutdownNow();
                 // 再次等待 60 s，如果还未结束，可以再次尝试，或者直接放弃
