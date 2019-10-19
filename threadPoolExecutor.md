@@ -227,8 +227,15 @@ public class CustomThreadPoolExecutor {
 
 
 ###优雅关闭线程池 方法2
+
 我们知道处于 SHUTDOWN 的状态下的线程池依旧可以调用 shutdownNow。所以我们可以结合 shutdown ， shutdownNow，awaitTermination ，更加优雅关闭线程池。
- threadPool.shutdown(); // Disable new tasks from being submitted
+
+shutdown ->  SHUTDOWN:该状态下线程池不再接受新任务，但是会将工作队列中的任务执行结束。
+
+shutdownnow -> STOP: 该状态下线程池不再接受新任务，但是不会处理工作队列中的任务，并且将会中断线程。
+
+```
+      threadPool.shutdown(); // Disable new tasks from being submitted
         // 设定最大重试次数
         try {
             // 等待 60 s
@@ -243,3 +250,4 @@ public class CustomThreadPoolExecutor {
             // 重新调用 shutdownNow
             threadPool.shutdownNow();
         }
+```
