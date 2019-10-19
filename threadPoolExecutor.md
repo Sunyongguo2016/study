@@ -126,6 +126,8 @@ SynchronousQueue没有数量限制。因为他根本不保持这些任务，而�
     	destroy(); // shutdown会 先执行完线程 再依次关闭
     	try {
 			while (executor.awaitTermination(5, TimeUnit.SECONDS)) {
+		//如果线程池任务执行结束，awaitTermination 方法将会返回 true，否则当等待时间超过指定时间后将会返回 false。
+                 //如果需要使用这种进制，建议在上面的基础上增加一定重试次数。这个真的很重要！！
 			    System.out.println("======VisThreadPoolExecutor=A-thread-Pool==was closed====="
 			    		+ "====will restart the thread-pool======");
 				// 所有线程关闭后 重启线程池 （用于系统参数改变后，重启线程池）
@@ -222,3 +224,22 @@ public class CustomThreadPoolExecutor {
  ```
 线程池 建议把同类型的任务，放在一个线程，比如都是消耗CPU的类型，或者都是消耗IO的类型的任务； 方便根据特性，决定设置线程池参数。
   ```
+
+
+###优雅关闭线程池 方法2
+我们知道处于 SHUTDOWN 的状态下的线程池依旧可以调用 shutdownNow。所以我们可以结合 shutdown ， shutdownNow，awaitTermination ，更加优雅关闭线程池。
+ threadPool.shutdown(); // Disable new tasks from being submitted
+        // 设定最大重试次数
+        try {
+            // 等待 60 s
+            if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                // 调用 shutdownNow 取消正在执行的任务
+                threadPool.shutdownNow();
+                // 再次等待 60 s，如果还未结束，可以再次尝试，或者直接放弃
+                if (!threadPool.awaitTermination(60, TimeUnit.SECONDS))
+                    System.err.println("线程池任务未正常执行结束");
+            }
+        } catch (InterruptedException ie) {
+            // 重新调用 shutdownNow
+            threadPool.shutdownNow();
+        }
