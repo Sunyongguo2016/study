@@ -15,6 +15,22 @@
   有基础后详读&加深记忆细节：
   [线程池详解-java团长-林冠宏](https://mp.weixin.qq.com/s?__biz=MzIwMTY0NDU3Nw==&mid=2651939964&idx=2&sn=65f86227d4aad75a96afa4111d9492dc&chksm=8d0f0b32ba788224f6b7a68279ad047993d41af8401e04f2bd70054d0b93a77ded5481fff83c&scene=0&xtrack=1&key=a43ea466d03028f9409b7ea08105d0f6527670ee4f04ce0abece88eef1c04f7fbe6adcada8cb282ade7e6fe29f29a1a7e8401159e6e58bef1fb632010c1bd6d9a13e37a0d583a9941b0f48b9ee86e973&ascene=14&uin=MjUwOTQxMzEzNw%3D%3D&devicetype=Windows+7&version=62060833&lang=zh_CN&pass_ticket=7mQZ6BjFmlHntAhelfuMIYlv%2B4C5LzpLk6TL4IfNggUpkVnNDN6mVUyuCJ1LYrey)
   
+  
+### 你知道如何安全正确的关闭线程池吗 (vx公众号 纯洁的微笑)
+ 线程池总共存在 5 种状态，分别为：
+
+RUNNING：线程池创建之后的初始状态，这种状态下可以执行任务。
+
+SHUTDOWN:该状态下线程池不再接受新任务，但是会将工作队列中的任务执行结束。
+
+STOP: 该状态下线程池不再接受新任务，但是不会处理工作队列中的任务，并且将会中断线程。
+
+TIDYING：该状态下所有任务都已终止，将会执行 terminated() 钩子方法。
+
+TERMINATED：执行完 terminated() 钩子方法之后。
+
+当我们执行 ThreadPoolExecutor#shutdown 方法将会使线程池状态从 RUNNING 转变为 SHUTDOWN。而调用 ThreadPoolExecutor#shutdownNow 之后线程池状态将会从 RUNNING 转变为 STOP。从上面的图上还可以看到，当线程池处于 SHUTDOWN，我们还是可以继续调用 ThreadPoolExecutor#shutdownNow 方法，将其状态转变为 STOP 。
+
   ```
   //---继承 ThreadPoolExecutor class, 在beforeExecute afterExecute,中存入记录
    public class MyThreadPoolExecutor extends ThreadPoolExecutor {
