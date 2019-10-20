@@ -16,6 +16,7 @@ https://www.jianshu.com/p/ae67972d1156
 博客：
 线程池监控
 
+
 java 线程池监控
 
 　一、线程池监控参数
@@ -40,6 +41,11 @@ getTaskCount()
 2. 线程池监控类 （原文link）
 
 https://www.cnblogs.com/warehouse/p/10732965.html
+
+借鉴：
+1.  private static final Logger LOGGER = LoggerFactory.getLogger(ThreadPoolMonitor.class);
+2. Date startDate = startTimes.remove(String.valueOf(r.hashCode())); // 在after里获取执行的时间长度
+3.  poolName 参数， 设置符合业务的名称
 
 ```
 import org.slf4j.Logger;
