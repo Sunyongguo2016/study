@@ -96,4 +96,4 @@ TLAB（加速堆上对象的分配），因为是线程自己拥有分配对象�
 * Java中的对象一定在堆上分配内存吗？
 * 如何获取堆和栈的dump文件？
 
-[java内存面试-1](https://www.hollischuang.com/archives/3875）
+[java内存面试-1](https://www.hollischuang.com/archives/3875)
