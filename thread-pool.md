@@ -78,6 +78,7 @@ public class ThreadPoolMonitor extends ThreadPoolExecutor {
     private String poolName;
 
     /**
+
      * 调用父类的构造方法，并初始化HashMap和线程池名称
      *
      * @param corePoolSize    线程池核心线程数
@@ -95,6 +96,8 @@ public class ThreadPoolMonitor extends ThreadPoolExecutor {
 
 
     /**
+bug:不管是那里调用这里了，在之前需要对入参做合法性校验，先给定默认参数，然后对可以动态配置的参数做校验，如果传入的参数不合法，依然使用默认参数；
+这个地方入参不合法，导致启动失败，经验！！！！
      * 调用父类的构造方法，并初始化HashMap和线程池名称
      *
      * @param corePoolSize    线程池核心线程数
