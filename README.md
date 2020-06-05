@@ -79,18 +79,18 @@ https://guides.github.com/features/mastering-markdown/
 > [java-multithread-core.md](https://github.com/Sunyongguo2016/study/blob/master/java-multithread-core.md)
 
 
-## 22.thread-local 笔记
+## 19.thread-local 笔记
 > [threadlocal.md](https://github.com/Sunyongguo2016/study/blob/master/threadlocal.md)
 
 
-## 23.classloader 类加载机制 笔记
+## 20.classloader 类加载机制 笔记
 > [classloader.md](https://github.com/Sunyongguo2016/study/blob/master/classloader.md)
 
-## 24.自己随想
+## 21.自己随想
 > [my-essay.md](https://github.com/Sunyongguo2016/study/blob/master/my-essays.md)
 
 
-## 25.拆掉思维的墙
+## 22.拆掉思维的墙
 > [tear-down-the-wall-of-thought.md](https://github.com/Sunyongguo2016/study/blob/master/tear-down-the-wall-of-thought.md)
 
 
