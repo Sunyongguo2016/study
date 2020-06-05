@@ -1,6 +1,5 @@
 # 大型网站技术架构核心原理与案例分析  
-> 思维导图及pdf: [资料](https://pan.baidu.com/s/1d4hsrbpCcpbr_hicRkROXw) 密码：8ns8  资料来自git某大神整理，
-附git:https://github.com/Snailclimb/
+
 
 > --阿里“教授” 李智慧
 principle of large sites
@@ -983,3 +982,7 @@ ORACLE等传统软件巨头的市场。
 >>互联网没有门槛，谁都可以进来玩，但是进来后，最好把那些陈旧的思想和包袱放下，重新来过。
 >>互联网是一个开放和分享的世界
 >>互联网是一种精神，一种开放，分享，自由的精神。越是不问回报，越是获得丰厚的回报；越是不设边界，越是拥有整个世界。 互联网正在继续改变世界，一切才刚刚开始，你我正生逢其时。
+
+### 精彩博客
+> 思维导图及pdf: [资料](https://pan.baidu.com/s/1d4hsrbpCcpbr_hicRkROXw) 密码：8ns8  资料来自git某大神整理，
+附git:https://github.com/Snailclimb/
