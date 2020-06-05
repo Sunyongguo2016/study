@@ -13,6 +13,10 @@
 
 > [threadPoolExecutor.md](https://github.com/Sunyongguo2016/study/blob/master/threadPoolExecutor.md)
 
+## 2.1 JVM 笔记
+> [jvm-note.md](https://github.com/Sunyongguo2016/study/blob/master/jvm-note.md)
+
+
 ## 3.head-frist设计模式
 > [head-frist-design.md](https://github.com/Sunyongguo2016/study/blob/master/head-frist-design.md)
 
