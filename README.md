@@ -97,5 +97,6 @@ https://guides.github.com/features/mastering-markdown/
 ## 22.拆掉思维的墙
 > [tear-down-the-wall-of-thought.md](https://github.com/Sunyongguo2016/study/blob/master/tear-down-the-wall-of-thought.md)
 
-
+## 23.lambda表达式
+> [Lambda.md](https://github.com/Sunyongguo2016/study/blob/master/Lambda.md)
 
